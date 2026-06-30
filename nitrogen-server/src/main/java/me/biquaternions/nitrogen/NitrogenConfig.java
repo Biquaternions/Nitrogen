@@ -25,7 +25,10 @@ public class NitrogenConfig extends StaticConfig {
     @Priority(2)
     public static class FEATURES {
         public static boolean ITEM_COOLDOWN = false;
+        @Ignore
         public static boolean _ITEM_COOLDOWN = false;
+
+        public static boolean ATTACK_STRENGTH = false;
     }
 
 
