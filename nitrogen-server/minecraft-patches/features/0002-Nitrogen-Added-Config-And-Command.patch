@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Sat, 19 Apr 2025 21:18:45 -0500
+Subject: [PATCH] Nitrogen Added Config And Command
+
+
+diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
+index a4d608d64b7d3477c9144d93547fd3b4f39a1b02..35a21b4bfd64694a755251e991e664bbf951413f 100644
+--- a/net/minecraft/server/Main.java
++++ b/net/minecraft/server/Main.java
+@@ -107,6 +107,7 @@ public class Main {
+                 JvmProfiler.INSTANCE.start(Environment.SERVER);
+             }
+ 
++            new me.biquaternions.nitrogen.NitrogenConfig().load(); // Nitrogen - Config and command
+             io.papermc.paper.plugin.PluginInitializerManager.load(options); // Paper
+             Bootstrap.bootStrap();
+             Bootstrap.validate();
+diff --git a/net/minecraft/server/ReloadableServerResources.java b/net/minecraft/server/ReloadableServerResources.java
+index 6db3af5861a25cff70fc940d1cd467ea81d4c29f..5708fc9a6c61999ab5cdc51b7f94f5afac22b421 100644
+--- a/net/minecraft/server/ReloadableServerResources.java
++++ b/net/minecraft/server/ReloadableServerResources.java
+@@ -49,6 +49,7 @@ public class ReloadableServerResources {
+         io.papermc.paper.command.PaperCommands.registerCommands(); // Paper
+         gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish - Config and command
+         gg.pufferfish.pufferfish.flare.FlareCommand.init(); // Pufferfish - Config and command
++        me.biquaternions.nitrogen.NitrogenCommand.init(); // Nitrogen - Config and command
+         this.advancements = new ServerAdvancementManager(loadingContext);
+         this.functionLibrary = new ServerFunctionLibrary(functionCompilationPermissions, this.commands.getDispatcher());
+     }
+diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
+index 694c57bf8443adb5d3500721e50ad77babd5a17d..4df0209366dab4ac85db149c7ca2d6cc4cef608e 100644
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -252,6 +252,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
+         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
+         new gg.pufferfish.pufferfish.PufferfishConfig().load(); // Pufferfish - Config and command
++        me.biquaternions.nitrogen.NitrogenConfig.init(); // Nitrogen start - Config and command
+ 
+         // this.worldData.setGameType(properties.gameMode.get()); // CraftBukkit - moved to world loading
+         LOGGER.info("Default game type: {}", properties.gameMode.get());

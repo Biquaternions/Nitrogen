@@ -5,7 +5,7 @@ Subject: [PATCH] Nitrogen Rebrand
 
 
 diff --git a/net/minecraft/CrashReport.java b/net/minecraft/CrashReport.java
-index 65dfd3729478be2a5a73bfda1e1f4b55b1372a7e..544007aac6036acb45aa80448d79b4758ece2d2a 100644
+index 65dfd3729478be2a5a73bfda1e1f4b55b1372a7e..b365a9b9f82e27681443a7688a5b90451b49e920 100644
 --- a/net/minecraft/CrashReport.java
 +++ b/net/minecraft/CrashReport.java
 @@ -30,7 +30,7 @@ public class CrashReport {
@@ -18,7 +18,7 @@ index 65dfd3729478be2a5a73bfda1e1f4b55b1372a7e..544007aac6036acb45aa80448d79b475
      public CrashReport(final String title, final Throwable t) {
          this.title = title;
 diff --git a/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 39a127243304c52840595e0721531ed6a85ae90a..fecc4cff15aedca1095eca63a894c91f74d34d38 100644
+index 3c7f825c01553207f9618e16c157943a82c821cd..edfceb48aa2386e1d2528e378b944dd681bd1e3e 100644
 --- a/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -309,7 +309,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
