@@ -1,0 +1,89 @@
+--- a/pufferfish-server/build.gradle.kts
++++ b/pufferfish-server/build.gradle.kts
+@@ -31,9 +_,26 @@
+             outputDir = rootDirectory.dir("paper-server")
+         }
+     }
+-    activeFork = pufferfish
+     // Pufferfish end - Rebrand
+ 
++    // Nitrogen start - Rebrand
++    val nitrogen = forks.register("nitrogen") {
++        forks = pufferfish
++        upstream.patchRepo("paperServer") {
++            upstreamRepo = pufferfish.patchedRepo("paperServer")
++            patchesDir = rootDirectory.dir("nitrogen-server/paper-patches")
++            outputDir = rootDirectory.dir("paper-server")
++        }
++        upstream.patchDir("pufferfishServer") {
++            upstreamPath = "pufferfish-server"
++            excludes = setOf("src/minecraft", "paper-patches", "minecraft-patches", "build.gradle.kts", "build.gradle.kts.patch")
++            patchesDir = rootDirectory.dir("nitrogen-server/pufferfish-patches")
++            outputDir = rootDirectory.dir("pufferfish-server")
++        }
++    }
++    activeFork = nitrogen
++    // Nitrogen end - Rebrand
++
+     /* Pufferfish - Unneeded
+     updatingMinecraft {
+         // oldPaperCommit = "d4fe85375af18bfa88f44d7c1e6a61904ae550cc"
+@@ -105,10 +_,18 @@
+     main {
+         java { srcDir("../paper-server/src/main/java") }
+         resources { srcDir("../paper-server/src/main/resources") }
++        // Nitrogen start - Rebrand
++        java { srcDir("../pufferfish-server/src/main/java") }
++        resources { srcDir("../pufferfish-server/src/main/resources") }
++        // Nitrogen end - Rebrand
+     }
+     test {
+         java { srcDir("../paper-server/src/test/java") }
+         resources { srcDir("../paper-server/src/test/resources") }
++        // Nitrogen start - Rebrand
++        java { srcDir("../pufferfish-server/src/test/java") }
++        resources { srcDir("../pufferfish-server/src/test/resources") }
++        // Nitrogen end - Rebrand
+     }
+ }
+ val log4jPlugins = sourceSets.create("log4jPlugins") {
+@@ -137,7 +_,7 @@
+ }
+ 
+ dependencies {
+-    implementation(project(":pufferfish-api")) // Pufferfish
++    implementation(project(":nitrogen-api")) // Pufferfish
+     implementation("ca.spottedleaf:leafpile:1.0.0")
+     implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
+     implementation("org.jline:jline-terminal-jni:3.27.1") // fall back to jni on java 21
+@@ -186,8 +_,8 @@
+     testImplementation("org.junit-pioneer:junit-pioneer:2.3.0") // CartesianTest
+ 
+     // Spark
+-    implementation("me.biquaternions.spark:spark-api:1.4-pufferfish")
+-    implementation("me.biquaternions.spark:spark-paper:1.4-pufferfish")
++    implementation("net.serlith.spark:spark-api:1.10.8") // Nitrogen - Custom spark
++    implementation("net.serlith.spark:spark-paper:1.10.8") // Nitrogen - Custom spark
+ }
+ 
+ tasks.jar {
+@@ -202,14 +_,14 @@
+         val gitBranch = git.exec(providers, "rev-parse", "--abbrev-ref", "HEAD").get().trim()
+         attributes(
+             "Main-Class" to "org.bukkit.craftbukkit.Main",
+-            "Implementation-Title" to "Puffernot", // Pufferfish
++            "Implementation-Title" to "Nitrogen", // Pufferfish // Nitrogen
+             "Implementation-Version" to implementationVersion,
+             "Implementation-Vendor" to date,
+-            "Specification-Title" to "Puffernot", // Pufferfish
++            "Specification-Title" to "Nitrogen", // Pufferfish // Nitrogen
+             "Specification-Version" to project.version,
+-            "Specification-Vendor" to "Pufferfish Host & Serlith Network", // Pufferfish
+-            "Brand-Id" to "pufferfish:pufferfish", // Pufferfish
+-            "Brand-Name" to "Pufferfish", // Pufferfish
++            "Specification-Vendor" to "Biquaternions", // Pufferfish // Nitrogen
++            "Brand-Id" to "biquaternions:nitrogen", // Pufferfish // Nitrogen
++            "Brand-Name" to "Nitrogen", // Pufferfish // Nitrogen
+             "Build-Number" to (build ?: ""),
+             "Build-Time" to buildTime.toString(),
+             "Git-Branch" to gitBranch,
