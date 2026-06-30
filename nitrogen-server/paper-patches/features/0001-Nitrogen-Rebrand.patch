@@ -5,7 +5,7 @@ Subject: [PATCH] Nitrogen Rebrand
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 96997fcdeb98fd74fedbb0a0f103e34cde991f50..cb69f44c747c1fbcfd7e4d145c21c4124129e11c 100644
+index 96997fcdeb98fd74fedbb0a0f103e34cde991f50..42594ed0959cc37c43f0c59caa5a2073dba7343b 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -593,7 +593,7 @@ public class Metrics {
@@ -32,7 +32,7 @@ index 96997fcdeb98fd74fedbb0a0f103e34cde991f50..cb69f44c747c1fbcfd7e4d145c21c412
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 3b04f982b3a31ecdaed412390941e9c9b1e7e0f6..4902096917eaa377993a8f2f716417bd37db608d 100644
+index 3b04f982b3a31ecdaed412390941e9c9b1e7e0f6..ffba6f195793ccff0e2706fd2537e673efbc5296 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -20,7 +20,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -45,7 +45,7 @@ index 3b04f982b3a31ecdaed412390941e9c9b1e7e0f6..4902096917eaa377993a8f2f716417bd
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
-index 9c9c3658a458e76d93785ae63744850d61a46fc3..e7ed4963d561e598a289c3c621b1c3036d6d5b3a 100644
+index 9c9c3658a458e76d93785ae63744850d61a46fc3..f4102a9998864e1282aae1facb6cf5b21552cb7c 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 +++ b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 @@ -32,6 +32,7 @@ public record ServerBuildInfoImpl(
@@ -78,7 +78,7 @@ index 9c9c3658a458e76d93785ae63744850d61a46fc3..e7ed4963d561e598a289c3c621b1c303
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index 8aa4e2286704e43503abbdae0d88ccfd5e0bf7e4..a2d3123bb62a966bf7008efe11f33da972bb95c5 100644
+index 8aa4e2286704e43503abbdae0d88ccfd5e0bf7e4..f74a9bc2c9c799cd48ac7a5f40f30f48a60bee3d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -494,7 +494,7 @@ public class CraftScheduler implements BukkitScheduler {
@@ -91,7 +91,7 @@ index 8aa4e2286704e43503abbdae0d88ccfd5e0bf7e4..a2d3123bb62a966bf7008efe11f33da9
                  // (async tasks must live with race-conditions if they attempt to cancel between these few lines of code)
              }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 9febe16a4202373aef707967cce6929b4922061d..acb046c9e631550ea36abf22298af731dc7237a5 100644
+index 9febe16a4202373aef707967cce6929b4922061d..bffec2d465e379706268309a07240e8f761af446 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -25,7 +25,7 @@ public class WatchdogThread extends ca.spottedleaf.moonrise.common.util.TickThre
@@ -114,7 +114,7 @@ index 9febe16a4202373aef707967cce6929b4922061d..acb046c9e631550ea36abf22298af731
                      logger.log(Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once");
                      logger.log(Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes");
 -                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Paper bug, please report this to https://github.com/SerlithNetwork/Puffernot/issues"); // Pufferfish - Rebrand
-+                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Paper bug, please report this to https://github.com/SerlithNetwork/Nitrogen/issues"); // Pufferfish - Rebrand // Nitrogen - Rebrand
++                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Paper bug, please report this to https://github.com/Biquaternions/Nitrogen/issues"); // Pufferfish - Rebrand // Nitrogen - Rebrand
                      logger.log(Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports");
 -                    logger.log(Level.SEVERE, "Pufferfish version: " + Bukkit.getServer().getVersion()); // Pufferfish - Rebrand
 +                    logger.log(Level.SEVERE, "Nitrogen version: " + Bukkit.getServer().getVersion()); // Pufferfish - Rebrand // Nitrogen - Rebrand
