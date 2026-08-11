@@ -9,7 +9,7 @@ Due to KNOCKBACK_RESISTANCE now supporting negative values in modern versions, i
   to avoid undefined behavior.
 Sadly this also means, while the EntityKnockbackEvent will still always fire, but will have a chance of not
   doing anything if the KNOCKBACK_RESISTANCE chance prevents it.
-  
+
 This patch also allows configuring the default knockback values similar to how PandaSpigot allows it.
 
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
