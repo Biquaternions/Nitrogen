@@ -31,6 +31,16 @@ public class NitrogenConfig extends StaticConfig {
         public static boolean ATTACK_STRENGTH = false;
     }
 
+    @Priority(3)
+    public static class KNOCKBACK { // Maybe I can make this per-world or per-player in the future
+        public static double FRICTION = 2.0;
+        public static double HORIZONTAL = 0.4;
+        public static double VERTICAL = 0.4;
+        public static double VERTICAL_LIMIT = 0.4000000059604645;
+        public static double EXTRA_HORIZONTAL = 0.5;
+        public static double EXTRA_VERTICAL = 0.1;
+    }
+
 
 
     @Ignore

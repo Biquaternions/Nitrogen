@@ -1,0 +1,93 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 11 Aug 2026 15:12:13 -0500
+Subject: [PATCH] Add Configurable Legacy Knockback
+
+
+diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
+index 64ad2e736ab1c4123d9a8e4bd56222e3e7ea3da8..ede7a31556b0cdda6eb0ee4624f8f0005cc617eb 100644
+--- a/net/minecraft/world/entity/LivingEntity.java
++++ b/net/minecraft/world/entity/LivingEntity.java
+@@ -2067,11 +2067,25 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+     }
+ 
+     public void knockback(double power, double xd, double zd, final DamageSource source, final float damage, final boolean comesFromEffect, @Nullable Entity attacker, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause eventCause) { // Paper - knockback events
+-        power *= 1.0 - this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
++        power = (2.0 + this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)) / 3.0; // Nitrogen - Turn resistance scale back into chance
+         if (true || !(power <= 0.0)) { // CraftBukkit - Call event even when force is 0
+             // this.needsSync = true; // Paper - moved down
+             Vec3 deltaMovement = this.getDeltaMovement();
+ 
++            // Nitrogen start - Legacy configurable knockback
++            double magnitude = Math.sqrt(xd * xd + zd * zd);
++            Vec3 motion = deltaMovement
++                .scale(me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.FRICTION)
++                .add(
++                    -(xd / magnitude * me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.HORIZONTAL),
++                    me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.VERTICAL,
++                    -(zd / magnitude * me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.HORIZONTAL)
++                );
++            if (motion.y() > me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.VERTICAL_LIMIT) {
++                motion = new Vec3(motion.x(), me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.VERTICAL_LIMIT, motion.z());
++            }
++            if (false) {
++            // Nitrogen end - Legacy configurable knockback
+             while (xd * xd + zd * zd < 1.0E-5F) {
+                 xd = (this.random.nextDouble() - this.random.nextDouble()) * 0.01;
+                 zd = (this.random.nextDouble() - this.random.nextDouble()) * 0.01;
+@@ -2083,8 +2097,9 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+                 this.onGround() ? Math.min(0.4, deltaMovement.y / 2.0 + power) : deltaMovement.y,
+                 deltaMovement.z / 2.0 - deltaVector.z
+             );
++            } // Nitrogen
+             // Paper start - knockback events
+-            Vec3 knockback = targetMovement.subtract(deltaMovement);
++            Vec3 knockback = motion.subtract(deltaMovement); // Nitrogen - Legacy configurable knockback
+             io.papermc.paper.event.entity.EntityKnockbackEvent event = CraftEventFactory.callEntityKnockbackEvent((org.bukkit.craftbukkit.entity.CraftLivingEntity) this.getBukkitEntity(), attacker, attacker, eventCause, power, knockback);
+             if (event.isCancelled()) {
+                 return;
+diff --git a/net/minecraft/world/entity/ai/attributes/Attributes.java b/net/minecraft/world/entity/ai/attributes/Attributes.java
+index 54a8384f1bc805865e81aeebcf1eadc89d097c91..0c67f8adb19f4f9b3c6c388b59ad27ec30bfa12e 100644
+--- a/net/minecraft/world/entity/ai/attributes/Attributes.java
++++ b/net/minecraft/world/entity/ai/attributes/Attributes.java
+@@ -59,7 +59,7 @@ public class Attributes {
+         "jump_strength", new RangedAttribute("attribute.name.jump_strength", 0.42F, 0.0, 32.0).setSyncable(true)
+     );
+     public static final Holder<Attribute> KNOCKBACK_RESISTANCE = register(
+-        "knockback_resistance", new RangedAttribute("attribute.name.knockback_resistance", 0.0, -2.0, 1.0)
++        "knockback_resistance", new RangedAttribute("attribute.name.knockback_resistance", 0.0, -2.0, 1.0) // Nitrogen - Can't change 'minValue' without breaking something
+     );
+     public static final Holder<Attribute> LUCK = register("luck", new RangedAttribute("attribute.name.luck", 0.0, -1024.0, 1024.0).setSyncable(true));
+     public static final Holder<Attribute> MAX_ABSORPTION = register(
+diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
+index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..c991cfdc1a532111d4607623dfd023bed31f3731 100644
+--- a/net/minecraft/world/entity/player/Player.java
++++ b/net/minecraft/world/entity/player/Player.java
+@@ -1211,6 +1211,16 @@ public abstract class Player extends Avatar implements ContainerUser {
+         final boolean comesFromEffect
+     ) {
+         if (knockbackAmount > 0.0F) {
++            // Nitrogen start - Legacy configurable knockback
++            Vec3 motion = entity.getDeltaMovement()
++                .add(
++                    -(Mth.sin(this.getYRot() * Mth.DEG_TO_RAD) * knockbackAmount * me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.EXTRA_HORIZONTAL),
++                    me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.EXTRA_VERTICAL,
++                    Mth.cos(this.getYRot() * Mth.DEG_TO_RAD) * knockbackAmount * me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.EXTRA_HORIZONTAL
++                );
++            entity.needsSync = true;
++            if (false) {
++            // Nitrogen end - Legacy configurable knockback
+             if (entity instanceof LivingEntity livingTarget) {
+                 livingTarget.knockback(
+                     knockbackAmount, Mth.sin(this.getYRot() * Mth.DEG_TO_RAD), -Mth.cos(this.getYRot() * Mth.DEG_TO_RAD), damageSource, damage, comesFromEffect, this, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK // Paper - knockback events
+@@ -1218,8 +1228,9 @@ public abstract class Player extends Avatar implements ContainerUser {
+             } else {
+                 entity.push(-Mth.sin(this.getYRot() * Mth.DEG_TO_RAD) * knockbackAmount, 0.1, Mth.cos(this.getYRot() * Mth.DEG_TO_RAD) * knockbackAmount, this); // Paper - Add EntityKnockbackByEntityEvent and EntityPushedByEntityAttackEvent
+             }
++            } // Nitrogen
+ 
+-            this.setDeltaMovement(this.getDeltaMovement().multiply(0.6, 1.0, 0.6));
++            this.setDeltaMovement(motion.multiply(0.6, 1.0, 0.6)); // Nitrogen
+             // Paper start - Configurable sprint interruption on attack
+             if (!this.level().paperConfig().misc.disableSprintInterruptionOnAttack) {
+             this.setSprinting(false);
