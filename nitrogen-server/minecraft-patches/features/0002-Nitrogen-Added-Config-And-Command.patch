@@ -5,10 +5,10 @@ Subject: [PATCH] Nitrogen Added Config And Command
 
 
 diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
-index a4d608d64b7d3477c9144d93547fd3b4f39a1b02..35a21b4bfd64694a755251e991e664bbf951413f 100644
+index 693ce1c23c7be6406eda22da57aa4a1b86a08f5f..3b365f313a46f4dca65808982f0408bfa3231f2c 100644
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
-@@ -107,6 +107,7 @@ public class Main {
+@@ -110,6 +110,7 @@ public class Main {
                  JvmProfiler.INSTANCE.start(Environment.SERVER);
              }
  

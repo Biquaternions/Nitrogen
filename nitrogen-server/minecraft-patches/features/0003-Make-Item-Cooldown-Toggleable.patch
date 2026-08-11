@@ -5,7 +5,7 @@ Subject: [PATCH] Make Item Cooldown Toggleable
 
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index c063fa617ea79b758b9c4ef0456889a91e341ad4..f3525606edfc13dd4e3c2e36b11093e75690fdbb 100644
+index 3cd4e850f223100b61ac6831a87dd38f3a3bb58f..8c68b180b0871a5a068025e07d5ac918041a4859 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
 @@ -712,7 +712,7 @@ public class ServerPlayer extends Player implements ca.spottedleaf.moonrise.patc
@@ -13,7 +13,7 @@ index c063fa617ea79b758b9c4ef0456889a91e341ad4..f3525606edfc13dd4e3c2e36b11093e7
      @Override
      protected ItemCooldowns createItemCooldowns() {
 -        return new ServerItemCooldowns(this);
-+        return me.biquaternions.nitrogen.NitrogenConfig.FEATURES._ITEM_COOLDOWN ? new ServerItemCooldowns(this) : new me.biquaternions.nitrogen.world.item.NoopItemCooldowns(); // Nitrogen - Toggleable cooldown
++        return new me.biquaternions.nitrogen.world.item.NoopItemCooldowns(); // Nitrogen - Disable cooldown
      }
  
      @Override
