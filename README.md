@@ -12,7 +12,7 @@ Nitrogen is a [Paper](https://github.com/PaperMC/Paper)/[Pufferfish](https://git
 
 ## Design
 Given Minecraft is headed to be fully data-driven and is already very customizable, anything that can be achieved via
-data components, will only have the default values changed to match legacy combat. \
+data components, will only have the default values changed to match legacy combat.
 
 Anything that cannot be achieved with components, will instead have its own dedicated patch, trying to keep plugin compatibility
 whenever possible.

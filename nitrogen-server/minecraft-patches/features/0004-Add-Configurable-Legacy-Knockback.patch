@@ -3,9 +3,17 @@ From: Biquaternions <biquaternions@serlith.net>
 Date: Tue, 11 Aug 2026 15:12:13 -0500
 Subject: [PATCH] Add Configurable Legacy Knockback
 
+This patch restores the old algorithm to calculate knockback.
+It also makes KNOCKBACK_RESISTANCE work again as a chance to inflict knockback rather than changing the momentum.
+Due to KNOCKBACK_RESISTANCE now supporting negative values in modern versions, it will be clamped between 0 and 1
+  to avoid undefined behavior.
+Sadly this also means, while the EntityKnockbackEvent will still always fire, but will have a chance of not
+  doing anything if the KNOCKBACK_RESISTANCE chance prevents it.
+  
+This patch also allows configuring the default knockback values similar to how PandaSpigot allows it.
 
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 64ad2e736ab1c4123d9a8e4bd56222e3e7ea3da8..ede7a31556b0cdda6eb0ee4624f8f0005cc617eb 100644
+index 64ad2e736ab1c4123d9a8e4bd56222e3e7ea3da8..3ff23a797a31b989c26f3702cf2bdb6a6b00594c 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
 @@ -2067,11 +2067,25 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
@@ -13,7 +21,7 @@ index 64ad2e736ab1c4123d9a8e4bd56222e3e7ea3da8..ede7a31556b0cdda6eb0ee4624f8f000
  
      public void knockback(double power, double xd, double zd, final DamageSource source, final float damage, final boolean comesFromEffect, @Nullable Entity attacker, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause eventCause) { // Paper - knockback events
 -        power *= 1.0 - this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
-+        power = (2.0 + this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)) / 3.0; // Nitrogen - Turn resistance scale back into chance
++        power = Math.clamp(this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE), 0.0, 1.0); // Nitrogen - Turn resistance scale back into chance
          if (true || !(power <= 0.0)) { // CraftBukkit - Call event even when force is 0
              // this.needsSync = true; // Paper - moved down
              Vec3 deltaMovement = this.getDeltaMovement();
@@ -35,7 +43,7 @@ index 64ad2e736ab1c4123d9a8e4bd56222e3e7ea3da8..ede7a31556b0cdda6eb0ee4624f8f000
              while (xd * xd + zd * zd < 1.0E-5F) {
                  xd = (this.random.nextDouble() - this.random.nextDouble()) * 0.01;
                  zd = (this.random.nextDouble() - this.random.nextDouble()) * 0.01;
-@@ -2083,8 +2097,9 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -2083,15 +2097,18 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
                  this.onGround() ? Math.min(0.4, deltaMovement.y / 2.0 + power) : deltaMovement.y,
                  deltaMovement.z / 2.0 - deltaVector.z
              );
@@ -46,6 +54,15 @@ index 64ad2e736ab1c4123d9a8e4bd56222e3e7ea3da8..ede7a31556b0cdda6eb0ee4624f8f000
              io.papermc.paper.event.entity.EntityKnockbackEvent event = CraftEventFactory.callEntityKnockbackEvent((org.bukkit.craftbukkit.entity.CraftLivingEntity) this.getBukkitEntity(), attacker, attacker, eventCause, power, knockback);
              if (event.isCancelled()) {
                  return;
+             }
+ 
++            if (this.random.nextDouble() >= power) { // Nitrogen - Turn resistance scale back into chance
+             this.needsSync = true;
+             this.setDeltaMovement(deltaMovement.add(event.getKnockback().getX(), event.getKnockback().getY(), event.getKnockback().getZ()));
++            } // Nitrogen - Turn resistance scale back into chance
+             // Paper end - knockback events
+         }
+     }
 diff --git a/net/minecraft/world/entity/ai/attributes/Attributes.java b/net/minecraft/world/entity/ai/attributes/Attributes.java
 index 54a8384f1bc805865e81aeebcf1eadc89d097c91..0c67f8adb19f4f9b3c6c388b59ad27ec30bfa12e 100644
 --- a/net/minecraft/world/entity/ai/attributes/Attributes.java
