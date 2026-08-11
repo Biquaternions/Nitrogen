@@ -60,10 +60,10 @@
      testImplementation("org.junit-pioneer:junit-pioneer:2.3.0") // CartesianTest
  
      // Spark
--    implementation("me.biquaternions.spark:spark-api:1.4-pufferfish")
--    implementation("me.biquaternions.spark:spark-paper:1.4-pufferfish")
-+    implementation("net.serlith.spark:spark-api:1.10.8") // Nitrogen - Custom spark
-+    implementation("net.serlith.spark:spark-paper:1.10.8") // Nitrogen - Custom spark
+-    implementation("me.biquaternions.spark:spark-api:1.5-pufferfish")
+-    implementation("me.biquaternions.spark:spark-paper:1.5-pufferfish")
++    implementation("net.serlith.spark:spark-api:1.10.9") // Nitrogen - Custom spark
++    implementation("net.serlith.spark:spark-paper:1.10.9") // Nitrogen - Custom spark
  }
  
  tasks.jar {

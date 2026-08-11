@@ -41,7 +41,7 @@ index 3b04f982b3a31ecdaed412390941e9c9b1e7e0f6..ffba6f195793ccff0e2706fd2537e673
          builder
 -                .appName("Pufferfish") // Pufferfish - Rebrand
 +                .appName("Nitrogen") // Pufferfish - Rebrand // Nitrogen - Rebrand
-                 .variable(LineReader.HISTORY_FILE, java.nio.file.Paths.get(".console_history"))
+                 .variable(LineReader.HISTORY_FILE, PaperCacheDir.moveFromServerRootAndGet(".console_history", "console_history"))
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
@@ -113,8 +113,8 @@ index 9febe16a4202373aef707967cce6929b4922061d..bffec2d465e379706268309a07240e8f
                      logger.log(Level.SEVERE, "\t *Especially* if it looks like HTTP or MySQL operations are occurring");
                      logger.log(Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once");
                      logger.log(Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes");
--                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Paper bug, please report this to https://github.com/SerlithNetwork/Puffernot/issues"); // Pufferfish - Rebrand
-+                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Paper bug, please report this to https://github.com/Biquaternions/Nitrogen/issues"); // Pufferfish - Rebrand // Nitrogen - Rebrand
+-                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Pufferfish bug, please report this to https://github.com/SerlithNetwork/Puffernot/issues"); // Pufferfish - Rebrand
++                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Nitrogen bug, please report this to https://github.com/Biquaternions/Nitrogen/issues"); // Pufferfish - Rebrand // Nitrogen - Rebrand
                      logger.log(Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports");
 -                    logger.log(Level.SEVERE, "Pufferfish version: " + Bukkit.getServer().getVersion()); // Pufferfish - Rebrand
 +                    logger.log(Level.SEVERE, "Nitrogen version: " + Bukkit.getServer().getVersion()); // Pufferfish - Rebrand // Nitrogen - Rebrand
