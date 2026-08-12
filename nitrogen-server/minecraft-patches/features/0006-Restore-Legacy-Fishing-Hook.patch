@@ -1,0 +1,79 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Wed, 12 Aug 2026 14:58:32 -0500
+Subject: [PATCH] Restore Legacy Fishing Hook
+
+==== WIP ====
+This event restores the old tick behavior on fishing hooks, dealing knockback instead
+of hooking to an entity.
+For the most part, regular actual fishing behavior should not be affected.
+
+==== WIP ====
+At this time, this patch only changes the position the fishing hook will spawn.
+It does not change the mechanics.
+
+diff --git a/net/minecraft/world/entity/EntityTypes.java b/net/minecraft/world/entity/EntityTypes.java
+index 95b2af33117400cbfa7c62ddbf46e44ab2b49360..5305acec90891482443ec9006ac40841b2bfd10d 100644
+--- a/net/minecraft/world/entity/EntityTypes.java
++++ b/net/minecraft/world/entity/EntityTypes.java
+@@ -1177,7 +1177,7 @@ public class EntityTypes {
+             .noLootTable()
+             .noSave()
+             .noSummon()
+-            .sized(0.25F, 0.25F)
++            .sized(0.25F, 0.25F) // Nitrogen - Fishing hook dimensions are created here
+             .clientTrackingRange(4)
+             .updateInterval(5)
+     );
+diff --git a/net/minecraft/world/entity/projectile/FishingHook.java b/net/minecraft/world/entity/projectile/FishingHook.java
+index c0bb1b62dfcdebbd34a8e8423fa36eb4924a55e5..d9a17bf8d29868d64c944e96c79034e517890e89 100644
+--- a/net/minecraft/world/entity/projectile/FishingHook.java
++++ b/net/minecraft/world/entity/projectile/FishingHook.java
+@@ -101,6 +101,24 @@ public class FishingHook extends Projectile {
+         this.setOwner(player);
+         float xRot1 = player.getXRot();
+         float yRot1 = player.getYRot();
++        // Nitrogen start - Restore Legacy Fishing Hook
++        this.snapTo(player.getX(), player.getEyeY(), player.getZ(), yRot1, xRot1);
++        Vec3 legacyPosition = new Vec3(
++            this.position().x() - (Mth.cos(this.getYRot() * Mth.DEG_TO_RAD) * 0.16F),
++            this.position().y() - 0.10000000149011612D,
++            this.position().z() - (Mth.sin(this.getYRot() * Mth.DEG_TO_RAD) * 0.16F)
++        );
++        this.setPos(legacyPosition);
++        Vec3 legacyRotation = new Vec3(
++            -(Mth.sin(this.getYRot() * Mth.DEG_TO_RAD) * Mth.cos(this.getXRot() * Mth.DEG_TO_RAD) * 0.4F),
++            -(Mth.sin(this.getXRot() * Mth.DEG_TO_RAD) * 0.4F),
++            Mth.cos(this.getYRot() * Mth.DEG_TO_RAD) * Mth.cos(this.getXRot() * Mth.DEG_TO_RAD) * 0.4F
++        );
++        this.nitrogen$updateMomentum(legacyRotation, 1.5F, 1.0F);
++        if (true) {
++            return;
++        }
++        // Nitrogen end - Restore Legacy Fishing Hook
+         float yCos = Mth.cos(-yRot1 * Mth.DEG_TO_RAD - Mth.PI);
+         float ySin = Mth.sin(-yRot1 * Mth.DEG_TO_RAD - Mth.PI);
+         float xCos = -Mth.cos(-xRot1 * Mth.DEG_TO_RAD);
+@@ -122,6 +140,22 @@ public class FishingHook extends Projectile {
+         this.yRotO = this.getYRot();
+         this.xRotO = this.getXRot();
+     }
++    // Nitrogen start - Restore Legacy Fishing Hook
++    private void nitrogen$updateMomentum(final Vec3 momentum, final float f, final float f1) {
++        Vec3 motion = momentum.normalize()
++            .add(this.random.nextGaussian() * 0.007499999832361937D * f1)
++            .multiply(f, f, f);
++        this.setDeltaMovement(motion);
++        double horizontal = motion.horizontalDistance();
++
++        this.setRot(
++            (float) (Mth.atan2(motion.x(), motion.z()) * Mth.RAD_TO_DEG),
++            (float) (Mth.atan2(motion.y(), horizontal) * Mth.RAD_TO_DEG)
++        );
++        this.setOldRot();
++        this.life = 0;
++    }
++    // Nitrogen end - Restore Legacy Fishing Hook
+ 
+     @Override
+     public InterpolationHandler getInterpolation() {
