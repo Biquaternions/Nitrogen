@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Wed, 12 Aug 2026 11:40:04 -0500
+Subject: [PATCH] Restore Legacy Notch Apple
+
+
+diff --git a/net/minecraft/world/item/component/Consumables.java b/net/minecraft/world/item/component/Consumables.java
+index 402eef3ae39f113368741e7b521a156309a8275b..b5503d8011e539ef6f6280d3d833ccd667daed07 100644
+--- a/net/minecraft/world/item/component/Consumables.java
++++ b/net/minecraft/world/item/component/Consumables.java
+@@ -27,10 +27,10 @@ public class Consumables {
+         .onConsume(
+             new ApplyStatusEffectsConsumeEffect(
+                 List.of(
+-                    new MobEffectInstance(MobEffects.REGENERATION, 400, 1),
++                    new MobEffectInstance(MobEffects.REGENERATION, 600, 4), // Nitrogen - Legacy Golden Apple
+                     new MobEffectInstance(MobEffects.RESISTANCE, 6000, 0),
+                     new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 6000, 0),
+-                    new MobEffectInstance(MobEffects.ABSORPTION, 2400, 3)
++                    new MobEffectInstance(MobEffects.ABSORPTION, 2400, 0) // Nitrogen - Legacy Golden Apple
+                 )
+             )
+         )
