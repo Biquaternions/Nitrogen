@@ -23,8 +23,8 @@ public class NitrogenCommand {
 
     public static void init() {
 
-        LiteralCommandNode<CommandSourceStack> command = Commands.literal("pufferfish")
-            .requires(s -> s.getSender().hasPermission("bukkit.command.pufferfish"))
+        LiteralCommandNode<CommandSourceStack> command = Commands.literal("nitrogen")
+            .requires(s -> s.getSender().hasPermission("bukkit.command.nitrogen"))
             .then(Commands.literal("reload")
                 .executes(ctx -> {
                     CommandSender sender = ctx.getSource().getSender();
