@@ -94,13 +94,13 @@ index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..e22edbd24728225c1230a83ae38e6e64
      ) {
          if (knockbackAmount > 0.0F) {
 +            // Nitrogen start - Legacy configurable knockback
-+            Vec3 motion = oldMovement.add(
++            Vec3 motion = new Vec3(
 +                -(Mth.sin(this.getYRot() * Mth.DEG_TO_RAD) * knockbackAmount * me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.EXTRA_HORIZONTAL),
 +                me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.EXTRA_VERTICAL,
 +                Mth.cos(this.getYRot() * Mth.DEG_TO_RAD) * knockbackAmount * me.biquaternions.nitrogen.NitrogenConfig.KNOCKBACK.EXTRA_HORIZONTAL
 +            );
 +            entity.needsSync = true;
-+            entity.setDeltaMovement(motion);
++            entity.addDeltaMovement(motion);
 +            if (false) {
 +            // Nitrogen end - Legacy configurable knockback
              if (entity instanceof LivingEntity livingTarget) {
