@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Wed, 12 Aug 2026 17:16:39 -0500
+Subject: [PATCH] Disable Dynamic Attack Strength
+
+
+diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
+index 99830f9500e63b1bae397738a7243c5312827d5b..da603ad93fe37e44153ebf34a6fb43613cec9db5 100644
+--- a/net/minecraft/world/entity/player/Player.java
++++ b/net/minecraft/world/entity/player/Player.java
+@@ -1963,6 +1963,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+     }
+ 
+     public float getCurrentItemAttackStrengthDelay() {
++        if (true) return 0.0F; // Nitrogen - Disable dynamic attack strength - API has to reflect no delay
+         return (float)(1.0 / this.getAttributeValue(Attributes.ATTACK_SPEED) * 20.0);
+     }
+ 
+@@ -1973,6 +1974,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+     }
+ 
+     public float getAttackStrengthScale(final float a) {
++        if (true) return 1.0F; // Nitrogen - Disable dynamic attack strength
+         return Mth.clamp((this.attackStrengthTicker + a) / this.getCurrentItemAttackStrengthDelay(), 0.0F, 1.0F);
+     }
+ 

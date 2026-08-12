@@ -26,12 +26,12 @@ public class SwordItem extends Item {
      * See {@link net.minecraft.world.item.Items#SHIELD}
      *
      * @param material Tool material
-     * @param attackDamage Attack damage
-     * @param attackSpeed Attack speed
+     * @param attackDamageBaseline Attack damage
+     * @param attackSpeedBaseline Attack speed
      * @param properties Item properties
      */
-    public SwordItem(ToolMaterial material, float attackDamage, float attackSpeed, Item.Properties properties) {
-        super(properties.sword(material, attackDamage, attackSpeed)
+    public SwordItem(final ToolMaterial material, final float attackDamageBaseline, final float attackSpeedBaseline, final Item.Properties properties) {
+        super(properties.sword(material, attackDamageBaseline, attackSpeedBaseline)
             .delayedComponent(DataComponents.BLOCKS_ATTACKS, _ -> new BlocksAttacks(
                 0.0F, 0.0F,
                 List.of(new BlocksAttacks.DamageReduction(360.0F, Optional.empty(), 0.0F, 0.5F)),

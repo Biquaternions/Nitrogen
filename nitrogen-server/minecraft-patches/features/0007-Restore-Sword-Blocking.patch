@@ -3,6 +3,12 @@ From: Biquaternions <biquaternions@serlith.net>
 Date: Wed, 12 Aug 2026 17:08:52 -0500
 Subject: [PATCH] Restore Sword Blocking
 
+==== WIP ====
+This patch restores the sword blocking mechanic using the block data component introduced in 1.21.5
+
+==== WIP ====
+At this moment, this only restores the mechanic, we still have to make the behavior match
+  how it used to work in 1.8
 
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
 index 00d73885502e7ca1051733a255b1d9dac2317948..99830f9500e63b1bae397738a7243c5312827d5b 100644

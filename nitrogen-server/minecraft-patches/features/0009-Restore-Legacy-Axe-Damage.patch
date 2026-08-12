@@ -1,0 +1,73 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Wed, 12 Aug 2026 17:34:38 -0500
+Subject: [PATCH] Restore Legacy Axe Damage
+
+Restore legacy lower damage of axes.
+For materials that didn't exist in 1.8 like netherite or copper, we keep it a single damage point below the sword,
+  as the rest of axes and swords had this difference in damage.
+
+diff --git a/net/minecraft/world/item/Items.java b/net/minecraft/world/item/Items.java
+index e61b052a1639d775146aca325c75267b136020d0..c78034bb57a15c6135aa65c2a1b5e7f1ecbcfa3b 100644
+--- a/net/minecraft/world/item/Items.java
++++ b/net/minecraft/world/item/Items.java
+@@ -999,32 +999,32 @@ public class Items {
+     public static final Item WOODEN_SWORD = registerItem(ItemIds.WOODEN_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.WOOD, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item WOODEN_SHOVEL = registerItem(ItemIds.WOODEN_SHOVEL, p -> new ShovelItem(ToolMaterial.WOOD, 1.5F, -3.0F, p));
+     public static final Item WOODEN_PICKAXE = registerItem(ItemIds.WOODEN_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.WOOD, 1.0F, -2.8F));
+-    public static final Item WOODEN_AXE = registerItem(ItemIds.WOODEN_AXE, p -> new AxeItem(ToolMaterial.WOOD, 6.0F, -3.2F, p));
++    public static final Item WOODEN_AXE = registerItem(ItemIds.WOODEN_AXE, p -> new AxeItem(ToolMaterial.WOOD, 3.0F, -3.2F, p)); // Nitrogen - Restore old axe damage (3)
+     public static final Item WOODEN_HOE = registerItem(ItemIds.WOODEN_HOE, p -> new HoeItem(ToolMaterial.WOOD, 0.0F, -3.0F, p));
+     public static final Item COPPER_SWORD = registerItem(ItemIds.COPPER_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.COPPER, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item COPPER_SHOVEL = registerItem(ItemIds.COPPER_SHOVEL, p -> new ShovelItem(ToolMaterial.COPPER, 1.5F, -3.0F, p));
+     public static final Item COPPER_PICKAXE = registerItem(ItemIds.COPPER_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.COPPER, 1.0F, -2.8F));
+-    public static final Item COPPER_AXE = registerItem(ItemIds.COPPER_AXE, p -> new AxeItem(ToolMaterial.COPPER, 7.0F, -3.2F, p));
++    public static final Item COPPER_AXE = registerItem(ItemIds.COPPER_AXE, p -> new AxeItem(ToolMaterial.COPPER, 3.0F, -3.2F, p)); // Nitrogen - Restore old axe damage (3)
+     public static final Item COPPER_HOE = registerItem(ItemIds.COPPER_HOE, p -> new HoeItem(ToolMaterial.COPPER, -1.0F, -2.0F, p));
+     public static final Item STONE_SWORD = registerItem(ItemIds.STONE_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.STONE, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item STONE_SHOVEL = registerItem(ItemIds.STONE_SHOVEL, p -> new ShovelItem(ToolMaterial.STONE, 1.5F, -3.0F, p));
+     public static final Item STONE_PICKAXE = registerItem(ItemIds.STONE_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.STONE, 1.0F, -2.8F));
+-    public static final Item STONE_AXE = registerItem(ItemIds.STONE_AXE, p -> new AxeItem(ToolMaterial.STONE, 7.0F, -3.2F, p));
++    public static final Item STONE_AXE = registerItem(ItemIds.STONE_AXE, p -> new AxeItem(ToolMaterial.STONE, 3.0F, -3.2F, p)); // Nitrogen - Restore old axe damage (3)
+     public static final Item STONE_HOE = registerItem(ItemIds.STONE_HOE, p -> new HoeItem(ToolMaterial.STONE, -1.0F, -2.0F, p));
+     public static final Item GOLDEN_SWORD = registerItem(ItemIds.GOLDEN_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.GOLD, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item GOLDEN_SHOVEL = registerItem(ItemIds.GOLDEN_SHOVEL, p -> new ShovelItem(ToolMaterial.GOLD, 1.5F, -3.0F, p));
+     public static final Item GOLDEN_PICKAXE = registerItem(ItemIds.GOLDEN_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.GOLD, 1.0F, -2.8F));
+-    public static final Item GOLDEN_AXE = registerItem(ItemIds.GOLDEN_AXE, p -> new AxeItem(ToolMaterial.GOLD, 6.0F, -3.0F, p));
++    public static final Item GOLDEN_AXE = registerItem(ItemIds.GOLDEN_AXE, p -> new AxeItem(ToolMaterial.GOLD, 3.0F, -3.0F, p)); // Nitrogen - Restore old axe damage (3)
+     public static final Item GOLDEN_HOE = registerItem(ItemIds.GOLDEN_HOE, p -> new HoeItem(ToolMaterial.GOLD, 0.0F, -3.0F, p));
+     public static final Item IRON_SWORD = registerItem(ItemIds.IRON_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.IRON, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item IRON_SHOVEL = registerItem(ItemIds.IRON_SHOVEL, p -> new ShovelItem(ToolMaterial.IRON, 1.5F, -3.0F, p));
+     public static final Item IRON_PICKAXE = registerItem(ItemIds.IRON_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.IRON, 1.0F, -2.8F));
+-    public static final Item IRON_AXE = registerItem(ItemIds.IRON_AXE, p -> new AxeItem(ToolMaterial.IRON, 6.0F, -3.1F, p));
++    public static final Item IRON_AXE = registerItem(ItemIds.IRON_AXE, p -> new AxeItem(ToolMaterial.IRON, 3.0F, -3.1F, p)); // Nitrogen - Restore old axe damage (4)
+     public static final Item IRON_HOE = registerItem(ItemIds.IRON_HOE, p -> new HoeItem(ToolMaterial.IRON, -2.0F, -1.0F, p));
+     public static final Item DIAMOND_SWORD = registerItem(ItemIds.DIAMOND_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.DIAMOND, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item DIAMOND_SHOVEL = registerItem(ItemIds.DIAMOND_SHOVEL, p -> new ShovelItem(ToolMaterial.DIAMOND, 1.5F, -3.0F, p));
+     public static final Item DIAMOND_PICKAXE = registerItem(ItemIds.DIAMOND_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.DIAMOND, 1.0F, -2.8F));
+-    public static final Item DIAMOND_AXE = registerItem(ItemIds.DIAMOND_AXE, p -> new AxeItem(ToolMaterial.DIAMOND, 5.0F, -3.0F, p));
++    public static final Item DIAMOND_AXE = registerItem(ItemIds.DIAMOND_AXE, p -> new AxeItem(ToolMaterial.DIAMOND, 3.0F, -3.0F, p)); // Nitrogen - Restore old axe damage (5)
+     public static final Item DIAMOND_HOE = registerItem(ItemIds.DIAMOND_HOE, p -> new HoeItem(ToolMaterial.DIAMOND, -3.0F, 0.0F, p));
+     public static final Item NETHERITE_SWORD = registerItem(
+         ItemIds.NETHERITE_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.NETHERITE, 3.0F, -2.4F, p), new Item.Properties().fireResistant() // Nitrogen - Sword blocking
+@@ -1036,7 +1036,7 @@ public class Items {
+         ItemIds.NETHERITE_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.NETHERITE, 1.0F, -2.8F).fireResistant()
+     );
+     public static final Item NETHERITE_AXE = registerItem(
+-        ItemIds.NETHERITE_AXE, p -> new AxeItem(ToolMaterial.NETHERITE, 5.0F, -3.0F, p), new Item.Properties().fireResistant()
++        ItemIds.NETHERITE_AXE, p -> new AxeItem(ToolMaterial.NETHERITE, 3.0F, -3.0F, p), new Item.Properties().fireResistant() // Nitrogen - Restore old axe damage (6)
+     );
+     public static final Item NETHERITE_HOE = registerItem(
+         ItemIds.NETHERITE_HOE, p -> new HoeItem(ToolMaterial.NETHERITE, -4.0F, 0.0F, p), new Item.Properties().fireResistant()
+diff --git a/net/minecraft/world/item/ToolMaterial.java b/net/minecraft/world/item/ToolMaterial.java
+index b4dcac7a0d4e598a10017ff370fa1b4071c74737..491ada6b229994e5d29d709b3710f22ca217c2c8 100644
+--- a/net/minecraft/world/item/ToolMaterial.java
++++ b/net/minecraft/world/item/ToolMaterial.java
+@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.Blocks;
+ public record ToolMaterial(
+     TagKey<Block> incorrectBlocksForDrops, int durability, float speed, float attackDamageBonus, int enchantmentValue, TagKey<Item> repairItems
+ ) {
++    // Nitrogen - See attack damage bonuses per material here
+     public static final ToolMaterial WOOD = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 59, 2.0F, 0.0F, 15, ItemTags.WOODEN_TOOL_MATERIALS);
+     public static final ToolMaterial STONE = new ToolMaterial(BlockTags.INCORRECT_FOR_STONE_TOOL, 131, 4.0F, 1.0F, 5, ItemTags.STONE_TOOL_MATERIALS);
+     public static final ToolMaterial COPPER = new ToolMaterial(BlockTags.INCORRECT_FOR_COPPER_TOOL, 190, 5.0F, 1.0F, 13, ItemTags.COPPER_TOOL_MATERIALS);

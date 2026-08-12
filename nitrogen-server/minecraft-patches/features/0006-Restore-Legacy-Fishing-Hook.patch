@@ -5,7 +5,7 @@ Subject: [PATCH] Restore Legacy Fishing Hook
 
 ==== WIP ====
 This event restores the old tick behavior on fishing hooks, dealing knockback instead
-of hooking to an entity.
+  of hooking to an entity.
 For the most part, regular actual fishing behavior should not be affected.
 
 ==== WIP ====
