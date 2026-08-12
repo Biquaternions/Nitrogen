@@ -8,4 +8,8 @@
 - [ ] Disable cooldown logic
 - [ ] Disable attack indicator (check how ViaVersion handles it)
 - [ ] Restore 1.8 invincibility frames
+- [ ] Restore 1.8 fishing rod behavior
+- [ ] Restore 1.8 sword blocking
+- [ ] Restore 1.8 potion effects (e.g. strength)
+- [ ] Restore 1.8 golden apple effects
 
