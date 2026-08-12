@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.KineticWeapon;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NullMarked;
@@ -57,7 +58,6 @@ public class SwordItem extends Item {
      */
     @Override
     public InteractionResult use(final Level level, final Player player, final InteractionHand hand) {
-        // See net.minecraft.world.item.Item#use
         ItemStack stack = player.getItemInHand(hand);
         Consumable consumable = stack.get(DataComponents.CONSUMABLE);
         if (consumable != null) {
@@ -68,9 +68,17 @@ public class SwordItem extends Item {
                 return equippable.swapWithEquipmentSlot(stack, player);
             } else if (stack.has(DataComponents.BLOCKS_ATTACKS)) {
                 player.startUsingItem(hand);
-                return InteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS; // Prevent using offhand
+            } else {
+                KineticWeapon kineticWeapon = stack.get(DataComponents.KINETIC_WEAPON);
+                if (kineticWeapon != null) {
+                    player.startUsingItem(hand);
+                    kineticWeapon.makeSound(player);
+                    return InteractionResult.CONSUME;
+                } else {
+                    return InteractionResult.PASS;
+                }
             }
-            return InteractionResult.PASS;
         }
     }
 
