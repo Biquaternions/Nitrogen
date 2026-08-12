@@ -11,5 +11,5 @@
 - [ ] Restore 1.8 fishing rod behavior
 - [ ] Restore 1.8 sword blocking
 - [ ] Restore 1.8 potion effects (e.g. strength)
-- [ ] Restore 1.8 golden apple effects
+- [X] Restore 1.8 golden apple effects
 
