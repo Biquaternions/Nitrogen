@@ -10,6 +10,6 @@
 - [ ] Restore 1.8 invincibility frames
 - [ ] Restore 1.8 fishing rod behavior
 - [ ] Restore 1.8 sword blocking
-- [ ] Restore 1.8 potion effects (e.g. strength)
+- [X] Restore 1.8 potion effects (e.g. strength)
 - [X] Restore 1.8 golden apple effects
 

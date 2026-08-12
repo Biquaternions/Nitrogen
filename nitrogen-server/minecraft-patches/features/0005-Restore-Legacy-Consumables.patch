@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Wed, 12 Aug 2026 11:40:04 -0500
+Subject: [PATCH] Restore Legacy Consumables
+
+
+diff --git a/net/minecraft/world/effect/MobEffects.java b/net/minecraft/world/effect/MobEffects.java
+index 6ff87b95edad31dc3d1f548a58c72e32ca0e5614..42392ac8a78980714eaec799b5d99a04bf51a2fa 100644
+--- a/net/minecraft/world/effect/MobEffects.java
++++ b/net/minecraft/world/effect/MobEffects.java
+@@ -43,7 +43,7 @@ public class MobEffects {
+     public static final Holder<MobEffect> STRENGTH = register(
+         "strength",
+         new MobEffect(MobEffectCategory.BENEFICIAL, 16762624)
+-            .addAttributeModifier(Attributes.ATTACK_DAMAGE, Identifier.withDefaultNamespace("effect.strength"), 3.0, AttributeModifier.Operation.ADD_VALUE)
++            .addAttributeModifier(Attributes.ATTACK_DAMAGE, Identifier.withDefaultNamespace("effect.strength"), 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) // Nitrogen - Legacy Strength Effect
+     );
+     public static final Holder<MobEffect> INSTANT_HEALTH = register("instant_health", new HealOrHarmMobEffect(MobEffectCategory.BENEFICIAL, 16262179, false));
+     public static final Holder<MobEffect> INSTANT_DAMAGE = register("instant_damage", new HealOrHarmMobEffect(MobEffectCategory.HARMFUL, 11101546, true));
+@@ -75,7 +75,7 @@ public class MobEffects {
+     public static final Holder<MobEffect> WEAKNESS = register(
+         "weakness",
+         new MobEffect(MobEffectCategory.HARMFUL, 4738376)
+-            .addAttributeModifier(Attributes.ATTACK_DAMAGE, Identifier.withDefaultNamespace("effect.weakness"), -4.0, AttributeModifier.Operation.ADD_VALUE)
++            .addAttributeModifier(Attributes.ATTACK_DAMAGE, Identifier.withDefaultNamespace("effect.weakness"), -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) // Nitrogen - Legacy Weakness Effect
+     );
+     public static final Holder<MobEffect> POISON = register("poison", new PoisonMobEffect(MobEffectCategory.HARMFUL, 8889187));
+     public static final Holder<MobEffect> WITHER = register("wither", new WitherMobEffect(MobEffectCategory.HARMFUL, 7561558));
+diff --git a/net/minecraft/world/item/component/Consumables.java b/net/minecraft/world/item/component/Consumables.java
+index 402eef3ae39f113368741e7b521a156309a8275b..b5503d8011e539ef6f6280d3d833ccd667daed07 100644
+--- a/net/minecraft/world/item/component/Consumables.java
++++ b/net/minecraft/world/item/component/Consumables.java
+@@ -27,10 +27,10 @@ public class Consumables {
+         .onConsume(
+             new ApplyStatusEffectsConsumeEffect(
+                 List.of(
+-                    new MobEffectInstance(MobEffects.REGENERATION, 400, 1),
++                    new MobEffectInstance(MobEffects.REGENERATION, 600, 4), // Nitrogen - Legacy Golden Apple
+                     new MobEffectInstance(MobEffects.RESISTANCE, 6000, 0),
+                     new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 6000, 0),
+-                    new MobEffectInstance(MobEffects.ABSORPTION, 2400, 3)
++                    new MobEffectInstance(MobEffects.ABSORPTION, 2400, 0) // Nitrogen - Legacy Golden Apple
+                 )
+             )
+         )
