@@ -1,0 +1,69 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Wed, 12 Aug 2026 17:08:52 -0500
+Subject: [PATCH] Restore Sword Blocking
+
+
+diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
+index 00d73885502e7ca1051733a255b1d9dac2317948..99830f9500e63b1bae397738a7243c5312827d5b 100644
+--- a/net/minecraft/world/entity/player/Player.java
++++ b/net/minecraft/world/entity/player/Player.java
+@@ -220,7 +220,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+         return LivingEntity.createLivingAttributes()
+             .add(Attributes.ATTACK_DAMAGE, 1.0)
+             .add(Attributes.MOVEMENT_SPEED, 0.1F)
+-            .add(Attributes.ATTACK_SPEED)
++            .add(Attributes.ATTACK_SPEED, 1024.0F) // Nitrogen - Disable attack cooldown
+             .add(Attributes.LUCK)
+             .add(Attributes.BLOCK_INTERACTION_RANGE)
+             .add(Attributes.BLOCK_BREAK_SPEED)
+diff --git a/net/minecraft/world/item/Items.java b/net/minecraft/world/item/Items.java
+index f7d7bd4f06358183b1ed54bfef4c4db822ebe0f9..e61b052a1639d775146aca325c75267b136020d0 100644
+--- a/net/minecraft/world/item/Items.java
++++ b/net/minecraft/world/item/Items.java
+@@ -996,38 +996,38 @@ public class Items {
+         ItemIds.NETHERITE_INGOT, new Item.Properties().fireResistant().trimMaterial(TrimMaterials.NETHERITE)
+     );
+     public static final Item NETHERITE_SCRAP = registerItem(ItemIds.NETHERITE_SCRAP, new Item.Properties().fireResistant());
+-    public static final Item WOODEN_SWORD = registerItem(ItemIds.WOODEN_SWORD, new Item.Properties().sword(ToolMaterial.WOOD, 3.0F, -2.4F));
++    public static final Item WOODEN_SWORD = registerItem(ItemIds.WOODEN_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.WOOD, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item WOODEN_SHOVEL = registerItem(ItemIds.WOODEN_SHOVEL, p -> new ShovelItem(ToolMaterial.WOOD, 1.5F, -3.0F, p));
+     public static final Item WOODEN_PICKAXE = registerItem(ItemIds.WOODEN_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.WOOD, 1.0F, -2.8F));
+     public static final Item WOODEN_AXE = registerItem(ItemIds.WOODEN_AXE, p -> new AxeItem(ToolMaterial.WOOD, 6.0F, -3.2F, p));
+     public static final Item WOODEN_HOE = registerItem(ItemIds.WOODEN_HOE, p -> new HoeItem(ToolMaterial.WOOD, 0.0F, -3.0F, p));
+-    public static final Item COPPER_SWORD = registerItem(ItemIds.COPPER_SWORD, new Item.Properties().sword(ToolMaterial.COPPER, 3.0F, -2.4F));
++    public static final Item COPPER_SWORD = registerItem(ItemIds.COPPER_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.COPPER, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item COPPER_SHOVEL = registerItem(ItemIds.COPPER_SHOVEL, p -> new ShovelItem(ToolMaterial.COPPER, 1.5F, -3.0F, p));
+     public static final Item COPPER_PICKAXE = registerItem(ItemIds.COPPER_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.COPPER, 1.0F, -2.8F));
+     public static final Item COPPER_AXE = registerItem(ItemIds.COPPER_AXE, p -> new AxeItem(ToolMaterial.COPPER, 7.0F, -3.2F, p));
+     public static final Item COPPER_HOE = registerItem(ItemIds.COPPER_HOE, p -> new HoeItem(ToolMaterial.COPPER, -1.0F, -2.0F, p));
+-    public static final Item STONE_SWORD = registerItem(ItemIds.STONE_SWORD, new Item.Properties().sword(ToolMaterial.STONE, 3.0F, -2.4F));
++    public static final Item STONE_SWORD = registerItem(ItemIds.STONE_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.STONE, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item STONE_SHOVEL = registerItem(ItemIds.STONE_SHOVEL, p -> new ShovelItem(ToolMaterial.STONE, 1.5F, -3.0F, p));
+     public static final Item STONE_PICKAXE = registerItem(ItemIds.STONE_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.STONE, 1.0F, -2.8F));
+     public static final Item STONE_AXE = registerItem(ItemIds.STONE_AXE, p -> new AxeItem(ToolMaterial.STONE, 7.0F, -3.2F, p));
+     public static final Item STONE_HOE = registerItem(ItemIds.STONE_HOE, p -> new HoeItem(ToolMaterial.STONE, -1.0F, -2.0F, p));
+-    public static final Item GOLDEN_SWORD = registerItem(ItemIds.GOLDEN_SWORD, new Item.Properties().sword(ToolMaterial.GOLD, 3.0F, -2.4F));
++    public static final Item GOLDEN_SWORD = registerItem(ItemIds.GOLDEN_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.GOLD, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item GOLDEN_SHOVEL = registerItem(ItemIds.GOLDEN_SHOVEL, p -> new ShovelItem(ToolMaterial.GOLD, 1.5F, -3.0F, p));
+     public static final Item GOLDEN_PICKAXE = registerItem(ItemIds.GOLDEN_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.GOLD, 1.0F, -2.8F));
+     public static final Item GOLDEN_AXE = registerItem(ItemIds.GOLDEN_AXE, p -> new AxeItem(ToolMaterial.GOLD, 6.0F, -3.0F, p));
+     public static final Item GOLDEN_HOE = registerItem(ItemIds.GOLDEN_HOE, p -> new HoeItem(ToolMaterial.GOLD, 0.0F, -3.0F, p));
+-    public static final Item IRON_SWORD = registerItem(ItemIds.IRON_SWORD, new Item.Properties().sword(ToolMaterial.IRON, 3.0F, -2.4F));
++    public static final Item IRON_SWORD = registerItem(ItemIds.IRON_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.IRON, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item IRON_SHOVEL = registerItem(ItemIds.IRON_SHOVEL, p -> new ShovelItem(ToolMaterial.IRON, 1.5F, -3.0F, p));
+     public static final Item IRON_PICKAXE = registerItem(ItemIds.IRON_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.IRON, 1.0F, -2.8F));
+     public static final Item IRON_AXE = registerItem(ItemIds.IRON_AXE, p -> new AxeItem(ToolMaterial.IRON, 6.0F, -3.1F, p));
+     public static final Item IRON_HOE = registerItem(ItemIds.IRON_HOE, p -> new HoeItem(ToolMaterial.IRON, -2.0F, -1.0F, p));
+-    public static final Item DIAMOND_SWORD = registerItem(ItemIds.DIAMOND_SWORD, new Item.Properties().sword(ToolMaterial.DIAMOND, 3.0F, -2.4F));
++    public static final Item DIAMOND_SWORD = registerItem(ItemIds.DIAMOND_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.DIAMOND, 3.0F, -2.4F, p)); // Nitrogen - Sword blocking
+     public static final Item DIAMOND_SHOVEL = registerItem(ItemIds.DIAMOND_SHOVEL, p -> new ShovelItem(ToolMaterial.DIAMOND, 1.5F, -3.0F, p));
+     public static final Item DIAMOND_PICKAXE = registerItem(ItemIds.DIAMOND_PICKAXE, new Item.Properties().pickaxe(ToolMaterial.DIAMOND, 1.0F, -2.8F));
+     public static final Item DIAMOND_AXE = registerItem(ItemIds.DIAMOND_AXE, p -> new AxeItem(ToolMaterial.DIAMOND, 5.0F, -3.0F, p));
+     public static final Item DIAMOND_HOE = registerItem(ItemIds.DIAMOND_HOE, p -> new HoeItem(ToolMaterial.DIAMOND, -3.0F, 0.0F, p));
+     public static final Item NETHERITE_SWORD = registerItem(
+-        ItemIds.NETHERITE_SWORD, new Item.Properties().sword(ToolMaterial.NETHERITE, 3.0F, -2.4F).fireResistant()
++        ItemIds.NETHERITE_SWORD, p -> new me.biquaternions.nitrogen.world.item.SwordItem(ToolMaterial.NETHERITE, 3.0F, -2.4F, p), new Item.Properties().fireResistant() // Nitrogen - Sword blocking
+     );
+     public static final Item NETHERITE_SHOVEL = registerItem(
+         ItemIds.NETHERITE_SHOVEL, p -> new ShovelItem(ToolMaterial.NETHERITE, 1.5F, -3.0F, p), new Item.Properties().fireResistant()
