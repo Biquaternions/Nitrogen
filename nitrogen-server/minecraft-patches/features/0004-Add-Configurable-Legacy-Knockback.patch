@@ -77,9 +77,18 @@ index 54a8384f1bc805865e81aeebcf1eadc89d097c91..0c67f8adb19f4f9b3c6c388b59ad27ec
      public static final Holder<Attribute> LUCK = register("luck", new RangedAttribute("attribute.name.luck", 0.0, -1024.0, 1024.0).setSyncable(true));
      public static final Holder<Attribute> MAX_ABSORPTION = register(
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..c991cfdc1a532111d4607623dfd023bed31f3731 100644
+index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..1ed4f194adf5041dc309cfde914174769251a29f 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
+@@ -1067,7 +1067,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+                     boolean wasHurt = entity.hurtOrSimulate(damageSource, totalDamage);
+                     if (wasHurt) {
+                         this.causeExtraKnockback(
+-                            entity, this.getKnockback(entity, damageSource) + (knockbackAttack ? 0.5F : 0.0F), oldMovement, damageSource, totalDamage, true
++                            entity, this.getKnockback(entity, damageSource) + (knockbackAttack ? 1.0F : 0.0F), oldMovement, damageSource, totalDamage, true // Nitrogen - Match 1.8 integer knockback multiplier
+                         );
+                         if (sweepAttack) {
+                             this.doSweepAttack(entity, baseDamage, damageSource, attackStrengthScale);
 @@ -1211,6 +1211,16 @@ public abstract class Player extends Avatar implements ContainerUser {
          final boolean comesFromEffect
      ) {
