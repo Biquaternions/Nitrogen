@@ -26,7 +26,7 @@ index 95b2af33117400cbfa7c62ddbf46e44ab2b49360..5305acec90891482443ec9006ac40841
              .updateInterval(5)
      );
 diff --git a/net/minecraft/world/entity/projectile/FishingHook.java b/net/minecraft/world/entity/projectile/FishingHook.java
-index c0bb1b62dfcdebbd34a8e8423fa36eb4924a55e5..6067247d97f0d652fe854dbfb2019023c21e20c1 100644
+index c0bb1b62dfcdebbd34a8e8423fa36eb4924a55e5..e940fda8e61b87fd73b571e36149c810c7fa8804 100644
 --- a/net/minecraft/world/entity/projectile/FishingHook.java
 +++ b/net/minecraft/world/entity/projectile/FishingHook.java
 @@ -101,6 +101,24 @@ public class FishingHook extends Projectile {
@@ -77,12 +77,20 @@ index c0bb1b62dfcdebbd34a8e8423fa36eb4924a55e5..6067247d97f0d652fe854dbfb2019023
  
      @Override
      public InterpolationHandler getInterpolation() {
-@@ -299,7 +333,7 @@ public class FishingHook extends Projectile {
+@@ -254,7 +288,7 @@ public class FishingHook extends Projectile {
+             }
+ 
+             if (!fluidState.is(FluidTags.WATER) && !this.onGround() && this.hookedIn == null) {
+-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.03, 0.0));
++                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.04, 0.0)); // Nitrogen - Restore gravity
+             }
+ 
+             this.move(MoverType.SELF, this.getDeltaMovement());
+@@ -299,6 +333,7 @@ public class FishingHook extends Projectile {
      protected void onHitEntity(final EntityHitResult hitResult) {
          super.onHitEntity(hitResult);
          if (!this.level().isClientSide()) {
--            this.setHookedEntity(hitResult.getEntity());
 +            hitResult.getEntity().hurtServer((ServerLevel) this.level(), this.damageSources().mobProjectile(this, this.getPlayerOwner()), 0.0F); // Nitrogen - Fishing rod knockback
+             this.setHookedEntity(hitResult.getEntity());
          }
      }
- 
