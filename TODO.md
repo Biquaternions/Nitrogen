@@ -18,3 +18,7 @@
 - [ ] Restore 1.8 fishing rod gravity
 - [ ] Restore 1.8 fishing rod physics trajectory
 - [ ] Restore 1.8 fishing rod knockback
+- [ ] Restore 1.8 armor durability
+- [ ] Restore 1.8 critical hits while sprinting
+- [ ] Restore 1.8 sharpness behavior (See https://minecraft.wiki/w/Sharpness#History)
+- [ ] Restore 1.8 melee attack ranges (See https://minecraft.wiki/w/Melee_attack#History)
