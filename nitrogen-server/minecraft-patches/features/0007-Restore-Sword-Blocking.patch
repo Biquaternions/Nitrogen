@@ -23,6 +23,22 @@ index 00d73885502e7ca1051733a255b1d9dac2317948..99830f9500e63b1bae397738a7243c53
              .add(Attributes.LUCK)
              .add(Attributes.BLOCK_INTERACTION_RANGE)
              .add(Attributes.BLOCK_BREAK_SPEED)
+diff --git a/net/minecraft/world/item/ItemStack.java b/net/minecraft/world/item/ItemStack.java
+index 44a7590558fa73fb570f76ba7a4e7db1415d08f7..4a9792c25b517d8adb57753f33bf3e0445ce255f 100644
+--- a/net/minecraft/world/item/ItemStack.java
++++ b/net/minecraft/world/item/ItemStack.java
+@@ -274,6 +274,11 @@ public final class ItemStack implements DataComponentHolder, ItemInstance {
+         this.item = item;
+         this.count = count;
+         this.components = components;
++        // Nitrogen start - Add sword blocking component
++        if (this.getItem() instanceof me.biquaternions.nitrogen.world.item.SwordItem && !this.components.has(DataComponents.BLOCKS_ATTACKS)) {
++            this.components.set(DataComponents.BLOCKS_ATTACKS, me.biquaternions.nitrogen.world.item.SwordItem.SWORD_BLOCKING_COMPONENT);
++        }
++        // Nitrogen end - Add sword blocking component
+     }
+ 
+     private ItemStack(final @Nullable Void nullMarker) {
 diff --git a/net/minecraft/world/item/Items.java b/net/minecraft/world/item/Items.java
 index f7d7bd4f06358183b1ed54bfef4c4db822ebe0f9..e61b052a1639d775146aca325c75267b136020d0 100644
 --- a/net/minecraft/world/item/Items.java

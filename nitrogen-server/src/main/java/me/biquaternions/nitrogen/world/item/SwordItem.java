@@ -21,10 +21,25 @@ import java.util.Optional;
 public class SwordItem extends Item {
 
     /**
-     * Creates an instance of Sword item.
-     * This custom sword uses data components and attributes.
+     * This has to be handled in the ItemStack constructor, otherwise the client won't be notified this is component is available.
+     * Handling this in the ItemProperties (SwordItem constructor) causes the server to never notify of this component,
+     *   as it thinks the component doesn't exist. Otherwise, the component works, but it doesn't trigger the blocking
+     *   animation in the client.
      * <p>
      * See {@link net.minecraft.world.item.Items#SHIELD}
+     */
+    public static final BlocksAttacks SWORD_BLOCKING_COMPONENT = new BlocksAttacks(
+        0.0F, 0.0F,
+        List.of(new BlocksAttacks.DamageReduction(360.0F, Optional.empty(), 0.0F, 0.5F)),
+        new BlocksAttacks.ItemDamageFunction(Integer.MAX_VALUE, 0.0F, 1.0F),
+        Optional.empty(),
+        Optional.of(SoundEvents.SPEAR_HIT),
+        Optional.empty()
+    );
+
+    /**
+     * Creates an instance of Sword item.
+     * This custom sword uses data components and attributes.
      *
      * @param material Tool material
      * @param attackDamageBaseline Attack damage
@@ -32,16 +47,7 @@ public class SwordItem extends Item {
      * @param properties Item properties
      */
     public SwordItem(final ToolMaterial material, final float attackDamageBaseline, final float attackSpeedBaseline, final Item.Properties properties) {
-        super(properties.sword(material, attackDamageBaseline, attackSpeedBaseline)
-            .delayedComponent(DataComponents.BLOCKS_ATTACKS, _ -> new BlocksAttacks(
-                0.0F, 0.0F,
-                List.of(new BlocksAttacks.DamageReduction(360.0F, Optional.empty(), 0.0F, 0.5F)),
-                new BlocksAttacks.ItemDamageFunction(Integer.MAX_VALUE, 0.0F, 1.0F),
-                Optional.empty(),
-                Optional.of(SoundEvents.SPEAR_HIT),
-                Optional.empty()
-            ))
-        );
+        super(properties.sword(material, attackDamageBaseline, attackSpeedBaseline));
     }
 
     /**
