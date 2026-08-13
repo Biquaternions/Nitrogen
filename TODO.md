@@ -24,3 +24,4 @@
 - [ ] Restore 1.8 melee attack ranges (See https://minecraft.wiki/w/Melee_attack#History)
 - [ ] Add some 1.8 fork features: Per-player combat features (kb, sprinting, cooldowns)
 - [ ] Add some 1.8 fork features: Pearl features for HCF and similar
+- [ ] Restore 1.8 regeneration

@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Thu, 13 Aug 2026 16:21:07 -0500
+Subject: [PATCH] Restore Self Hit By Arrows
+
+==== WIP ====
+This patch restores the possibility of players hitting themselves by arrows.
+This enables old mechanics like bow boosting.
+
+==== WIP ====
+At the time of writing this, this has successfully re-enabled bow boosting,
+  however, it isn't as easy to trigger as it was in 1.8.
+
+diff --git a/net/minecraft/world/entity/projectile/Projectile.java b/net/minecraft/world/entity/projectile/Projectile.java
+index 91e2626809be2ea717063517d63e11ed1831b0d6..51861896f8d4ef06660669471ea7e20942e8139b 100644
+--- a/net/minecraft/world/entity/projectile/Projectile.java
++++ b/net/minecraft/world/entity/projectile/Projectile.java
+@@ -147,6 +147,7 @@ public abstract class Projectile extends Entity implements TraceableEntity {
+     }
+ 
+     private boolean isOutsideOwnerCollisionRange() {
++        if (true) return true; // Nitrogen - Restore self hit by arrows
+         Entity owner = this.getOwner();
+         if (owner != null) {
+             AABB aabb = this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0);
