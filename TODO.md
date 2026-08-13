@@ -13,4 +13,5 @@
 - [X] Restore 1.8 potion effects (e.g. strength)
 - [X] Restore 1.8 golden apple effects
 - [ ] Disable attack indicator when switching tools
-- [ ] Disable sweeping attack
+- [X] Disable sweeping attack
+- [ ] Fix swords got from creative not visually blocking until an update
