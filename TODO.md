@@ -8,10 +8,13 @@
 - [ ] Disable cooldown logic
 - [ ] Disable attack indicator (check how ViaVersion handles it)
 - [ ] Restore 1.8 invincibility frames
-- [ ] Restore 1.8 fishing rod behavior
 - [ ] Restore 1.8 sword blocking
 - [X] Restore 1.8 potion effects (e.g. strength)
 - [X] Restore 1.8 golden apple effects
 - [ ] Disable attack indicator when switching tools
 - [X] Disable sweeping attack
 - [ ] Fix swords got from creative not visually blocking until an update
+- [ ] Restore 1.8 bow boosting (basically being self-hit by arrows)
+- [ ] Restore 1.8 fishing rod gravity
+- [ ] Restore 1.8 fishing rod physics trajectory
+- [ ] Restore 1.8 fishing rod knockback
