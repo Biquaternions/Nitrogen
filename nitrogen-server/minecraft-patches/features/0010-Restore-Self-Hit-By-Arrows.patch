@@ -12,14 +12,22 @@ At the time of writing this, this has successfully re-enabled bow boosting,
   however, it isn't as easy to trigger as it was in 1.8.
 
 diff --git a/net/minecraft/world/entity/projectile/Projectile.java b/net/minecraft/world/entity/projectile/Projectile.java
-index 91e2626809be2ea717063517d63e11ed1831b0d6..51861896f8d4ef06660669471ea7e20942e8139b 100644
+index 91e2626809be2ea717063517d63e11ed1831b0d6..562e161cc67a8846940445103ae7b6adb3ff7e6c 100644
 --- a/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/net/minecraft/world/entity/projectile/Projectile.java
 @@ -147,6 +147,7 @@ public abstract class Projectile extends Entity implements TraceableEntity {
      }
  
      private boolean isOutsideOwnerCollisionRange() {
-+        if (true) return true; // Nitrogen - Restore self hit by arrows
++        if (this.getOwner() instanceof Player) return true; // Nitrogen - Restore self hit by arrows
          Entity owner = this.getOwner();
          if (owner != null) {
              AABB aabb = this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0);
+@@ -159,6 +160,7 @@ public abstract class Projectile extends Entity implements TraceableEntity {
+         }
+     }
+ 
++    // Nitrogen - TODO: Check if there's something to port here, see 1.8 EntityArrow#shoot
+     public Vec3 getMovementToShoot(final double xd, final double yd, final double zd, final float pow, final float uncertainty) {
+         return new Vec3(xd, yd, zd)
+             .normalize()
