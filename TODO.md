@@ -25,3 +25,4 @@
 - [ ] Add some 1.8 fork features: Per-player combat features (kb, sprinting, cooldowns)
 - [ ] Add some 1.8 fork features: Pearl features for HCF and similar
 - [ ] Restore 1.8 regeneration
+- [ ] Use data components to disable cooldowns instead, so the client still shows the item cooldown animation properly
