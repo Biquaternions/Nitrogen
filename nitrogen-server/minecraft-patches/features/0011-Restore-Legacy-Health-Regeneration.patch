@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Thu, 13 Aug 2026 20:56:46 -0500
+Subject: [PATCH] Restore Legacy Health Regeneration
+
+
+diff --git a/net/minecraft/world/food/FoodData.java b/net/minecraft/world/food/FoodData.java
+index 38ccab90d09c92e6b70d1457931b64fb4e6ff7ec..3d3b3bc276feed4c83539a7ccdeb559bf65b2f6d 100644
+--- a/net/minecraft/world/food/FoodData.java
++++ b/net/minecraft/world/food/FoodData.java
+@@ -66,7 +66,7 @@ public class FoodData {
+         }
+ 
+         boolean naturalRegen = level.getGameRules().get(GameRules.NATURAL_HEALTH_REGENERATION);
+-        if (naturalRegen && this.saturationLevel > 0.0F && player.isHurt() && this.foodLevel >= FoodConstants.MAX_FOOD) {
++        if (false && naturalRegen && this.saturationLevel > 0.0F && player.isHurt() && this.foodLevel >= FoodConstants.MAX_FOOD) { // Nitrogen - Legacy regeneration
+             this.tickTimer++;
+             if (this.tickTimer >= this.saturatedRegenRate) { // CraftBukkit
+                 float saturationSpent = Math.min(this.saturationLevel, 6.0F);

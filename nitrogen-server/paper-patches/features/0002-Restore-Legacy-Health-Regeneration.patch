@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Thu, 13 Aug 2026 20:56:59 -0500
+Subject: [PATCH] Restore Legacy Health Regeneration
+
+
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index 339832e312578ee385bbf3c9d5c131435abe7d7a..7abdcd4730956df81a7794424f416b49518fe635 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -394,13 +394,13 @@ public class SpigotWorldConfig {
+             this.set("hunger.walk-exhaustion", null);
+             this.set("hunger.sprint-exhaustion", null);
+             this.set("hunger.combat-exhaustion", 0.1);
+-            this.set("hunger.regen-exhaustion", 6.0);
++            this.set("hunger.regen-exhaustion", 3.0); // Nitrogen
+         }
+ 
+         this.jumpWalkExhaustion = (float) this.getDouble("hunger.jump-walk-exhaustion", 0.05);
+         this.jumpSprintExhaustion = (float) this.getDouble("hunger.jump-sprint-exhaustion", 0.2);
+         this.combatExhaustion = (float) this.getDouble("hunger.combat-exhaustion", 0.1);
+-        this.regenExhaustion = (float) this.getDouble("hunger.regen-exhaustion", 6.0);
++        this.regenExhaustion = (float) this.getDouble("hunger.regen-exhaustion", 3.0); // Nitrogen
+         this.swimMultiplier = (float) this.getDouble("hunger.swim-multiplier", 0.01);
+         this.sprintMultiplier = (float) this.getDouble("hunger.sprint-multiplier", 0.1);
+         this.otherMultiplier = (float) this.getDouble("hunger.other-multiplier", 0.0);

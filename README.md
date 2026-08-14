@@ -7,7 +7,15 @@ Nitrogen is a [Paper](https://github.com/PaperMC/Paper)/[Pufferfish](https://git
 </div>
 
 > [!WARNING]
-> This project is in its early stages and I do not recommend using it.
+> This project is in its early stages and I do not recommend using it. \
+> At the time of writing this, it DOES NOT match a 1.8 combat behavior 1:1. 
+>
+
+> [!CAUTION]
+> This project breaks plugin expectations about the software it will be running on. \
+> Any plugin that expects modern combat mechanics is considered incompatible. \
+> Any plugin that attempts to restore 1.8 behavior is also considered fundamentally incompatible,
+> as it does the exact same thing this project attempts to achieve. 
 >
 
 ## Design
