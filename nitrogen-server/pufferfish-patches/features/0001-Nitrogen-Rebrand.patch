@@ -27,15 +27,15 @@ index 33c46afb69f7dff6538406c562968c7458c3f031..3afd2c2753a17764f33c20f4c06307de
  
      private static int fetchDistanceFromSiteApi(final int actionsBuild) {
          try {
--            final URL buildsUrl = URI.create("https://version.serlith.net/projects/pufferfish/" + PufferfishVersionFetcher.BUILD_INFO.minecraftVersionId() + "/latest").toURL();
-+            final URL buildsUrl = URI.create("https://version.serlith.net/projects/nitrogen/" + PufferfishVersionFetcher.BUILD_INFO.minecraftVersionId() + "/latest").toURL(); // Nitrogen - Rebrand
+-            final URL buildsUrl = URI.create("https://version.serlith.net/api/v1/project/fetch/pufferfish/" + PufferfishVersionFetcher.BUILD_INFO.minecraftVersionId() + "/latest/build").toURL();
++            final URL buildsUrl = URI.create("https://version.serlith.net/api/v1/project/fetch/nitrogen/" + PufferfishVersionFetcher.BUILD_INFO.minecraftVersionId() + "/latest/build").toURL(); // Nitrogen - Rebrand
              final HttpURLConnection connection = (HttpURLConnection) buildsUrl.openConnection();
              connection.setConnectTimeout(5000);
              connection.setReadTimeout(5000);
 @@ -103,7 +103,7 @@ public class PufferfishVersionFetcher extends PaperVersionFetcher {
                  final int latest = json.getAsInt();
                  return Math.max(latest - actionsBuild, 0);
-             } catch (final JsonSyntaxException ex) {
+             } catch (final JsonSyntaxException | MalformedJsonException ex) {
 -                LOGGER.error("Error parsing json from Pufferfish's downloads API", ex);
 +                LOGGER.error("Error parsing json from Nitrogen's downloads API", ex); // Nitrogen - Rebrand
                  return DISTANCE_ERROR;
