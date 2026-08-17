@@ -45,9 +45,8 @@ public class VanillaLegacyKnockbackBehavior extends KnockbackBehavior {
     public void handleKnockback(final org.bukkit.entity.LivingEntity self, double power, final double xd, final double zd, final org.bukkit.damage.DamageSource source0, final float damage, final boolean comesFromEffect, final org.bukkit.entity.@Nullable Entity attacker0, final EntityKnockbackEvent.Cause eventCause) {
         LivingEntity thiz = ((CraftLivingEntity) self).getHandle();
         Entity attacker = Objects.requireNonNull(((CraftEntity) attacker0)).getHandle();
+
         power = Math.clamp(thiz.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE), 0.0, 1.0); // Nitrogen - Turn resistance scale back into chance
-
-
         Vec3 deltaMovement = thiz.getDeltaMovement();
 
         // Nitrogen start - Legacy configurable knockback
