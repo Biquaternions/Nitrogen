@@ -14,6 +14,8 @@ public class ItemDataComponentUtil {
         throw new IllegalStateException();
     }
 
+    private static final float FLOAT_ZERO_POSITIVE = 0.0000000001F;
+
     public static PatchedDataComponentMap mergeItemComponents(final Item item, final PatchedDataComponentMap components) {
         switch (item) {
             case SwordItem _ -> {
@@ -23,7 +25,7 @@ public class ItemDataComponentUtil {
             }
             case EnderpearlItem _ -> {
                 if (!components.hasNonDefault(DataComponents.USE_COOLDOWN)) {
-                    components.set(DataComponents.USE_COOLDOWN, new UseCooldown(0.0f));
+                    components.set(DataComponents.USE_COOLDOWN, new UseCooldown(FLOAT_ZERO_POSITIVE));
                 }
             }
             default -> {}
