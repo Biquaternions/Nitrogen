@@ -17,12 +17,12 @@ public class ItemDataComponentUtil {
     public static PatchedDataComponentMap mergeItemComponents(final Item item, final PatchedDataComponentMap components) {
         switch (item) {
             case SwordItem _ -> {
-                if (!components.has(DataComponents.BLOCKS_ATTACKS)) {
+                if (!components.hasNonDefault(DataComponents.BLOCKS_ATTACKS)) {
                     components.set(DataComponents.BLOCKS_ATTACKS, SwordItem.SWORD_BLOCKING_COMPONENT);
                 }
             }
             case EnderpearlItem _ -> {
-                if (!components.has(DataComponents.USE_COOLDOWN)) {
+                if (!components.hasNonDefault(DataComponents.USE_COOLDOWN)) {
                     components.set(DataComponents.USE_COOLDOWN, new UseCooldown(0.0f));
                 }
             }

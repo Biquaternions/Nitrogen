@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/ItemStack.java
++++ b/net/minecraft/world/item/ItemStack.java
+@@ -273,7 +_,7 @@
+     private ItemStack(final Holder<Item> item, final int count, final PatchedDataComponentMap components) {
+         this.item = item;
+         this.count = count;
+-        this.components = components;
++        this.components = me.biquaternions.nitrogen.util.ItemDataComponentUtil.mergeItemComponents(this.getItem(), components);
+     }
+ 
+     private ItemStack(final @Nullable Void nullMarker) {
