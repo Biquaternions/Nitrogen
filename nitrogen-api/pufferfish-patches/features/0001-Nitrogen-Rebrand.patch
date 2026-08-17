@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Mon, 17 Aug 2026 13:50:54 -0500
+Subject: [PATCH] Nitrogen Rebrand
+
+
+diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionOverride.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionOverride.java
+index 8a8667a640ab3aa00ea39b0a4a8b1f9ff4d6d15b..2003c40e584aa8aebdf431039d51d0fc8a6ee86d 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionOverride.java
++++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionOverride.java
+@@ -20,9 +20,9 @@ public class PufferfishVersionOverride {
+     }
+ 
+     private static final Component HEADER = MiniMessage.miniMessage().deserialize(
+-        "<gradient:#0069FF:#96CCFF:#0069FF><st>    </st>[ <white><b>Pufferfish</b></white> ]<st>                                         </st></gradient>"
++        "<gradient:#FF3700:#FFBF00:#FF3700><st>    </st>[ <white><b>Nitrogen</b></white> ]<st>                                         </st></gradient>"
+     );
+-    private static final TextColor COLOR_PRIMARY = TextColor.color(0x00, 0xAA, 0xFF);
++    private static final TextColor COLOR_PRIMARY = TextColor.color(0xFF, 0x82, 0x82);
+ 
+     public static Component getVersionMessage() {
+         final ServerBuildInfo build = ServerBuildInfo.buildInfo();
