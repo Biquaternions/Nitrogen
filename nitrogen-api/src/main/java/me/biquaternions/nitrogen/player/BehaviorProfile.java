@@ -22,4 +22,6 @@ public interface BehaviorProfile {
 
     float getRegenerationExhaustion();
 
+    double criticalMultiplier();
+
 }
