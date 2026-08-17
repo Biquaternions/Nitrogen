@@ -1,7 +1,9 @@
 package me.biquaternions.nitrogen.entity;
 
 import me.biquaternions.nitrogen.entity.knockback.KnockbackBehavior;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public interface KnockbackProfile {
 
     // Melee

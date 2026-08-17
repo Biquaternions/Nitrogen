@@ -12,14 +12,14 @@ public abstract class CombatProfile {
     PearlProfile getPearlBehavior();
      */
 
-    public abstract boolean cancelSprintOnHit();
+    public abstract boolean canSprintOnHit();
 
     public abstract boolean canAttributeSwap();
 
-    public abstract boolean isLegacyFoodRegeneration();
+    public abstract boolean canRegenerateOnSaturation();
 
     public abstract float getRegenerationExhaustion();
 
-    public abstract double criticalMultiplier();
+    public abstract double getCriticalMultiplier();
 
 }
