@@ -18,6 +18,15 @@ Nitrogen is a [Paper](https://github.com/PaperMC/Paper)/[Pufferfish](https://git
 > as it does the exact same thing this project attempts to achieve. 
 >
 
+> [!CAUTION]
+> Migration from Paper or other forks to Nitrogen is possible, however
+> migration from Nitrogen to Paper or other forks is not supported. \
+> Nitrogen modifies, some items data components **permanently**, these will
+> persist after migration. \
+> For example, all exiting swords will still be able to block attacks after migrating
+> to other software. Nitrogen has no reliable way to undo these changes for migration.
+>
+
 ## Design
 Given Minecraft is headed to be fully data-driven and is already very customizable, anything that can be achieved via
 data components, will only have the default values changed to match legacy combat.
