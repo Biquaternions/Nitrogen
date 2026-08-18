@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Mon, 17 Aug 2026 22:11:09 -0500
+Subject: [PATCH] Combat Profiles API
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
+index 6b6b0051af4185de185d603d0b16a937efcdfb21..55d6741f78e80c1b8491942b4c039323483a8242 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
+@@ -104,6 +104,7 @@ import org.jspecify.annotations.NonNull;
+ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+ 
+     private CraftEntityEquipment equipment;
++    private me.biquaternions.nitrogen.entity.CombatProfile combatProfile = new me.biquaternions.nitrogen.entity.VanillaLegacyCombatProfile(); // Nitrogen - Combat Profiles
+ 
+     public CraftLivingEntity(final CraftServer server, final net.minecraft.world.entity.LivingEntity entity) {
+         super(server, entity);
+@@ -1155,4 +1156,15 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+         manager.untrackWaypoint(getHandle());
+         manager.trackWaypoint(getHandle());
+     }
++
++    // Nitrogen start - Combat Profile API
++    @Override
++    public me.biquaternions.nitrogen.entity.@NonNull CombatProfile getCombatProfile() {
++        return this.combatProfile;
++    }
++    @Override
++    public void setCombatProfile(final me.biquaternions.nitrogen.entity.@NonNull CombatProfile profile) {
++        this.combatProfile = profile;
++    }
++    // Nitrogen end - Combat Profile API
+ }
