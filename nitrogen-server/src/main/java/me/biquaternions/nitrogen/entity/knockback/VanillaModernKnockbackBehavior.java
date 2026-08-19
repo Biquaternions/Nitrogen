@@ -17,7 +17,12 @@ import org.jspecify.annotations.Nullable;
 import java.util.Objects;
 
 @NullMarked
-public class VanillaModernKnockbackBehavior extends KnockbackBehavior {
+public class VanillaModernKnockbackBehavior implements KnockbackBehavior {
+
+    @Override
+    public float getMultiplierExtra() {
+        return 0.5F;
+    }
 
     @Override
     public void handleKnockback(final org.bukkit.entity.LivingEntity self, double power, double xd, double zd, final org.bukkit.damage.DamageSource source, final float damage, final boolean comesFromEffect, final org.bukkit.entity.@Nullable Entity attacker0, final EntityKnockbackEvent.Cause eventCause) {

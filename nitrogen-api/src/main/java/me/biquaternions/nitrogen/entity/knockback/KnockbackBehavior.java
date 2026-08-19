@@ -9,10 +9,12 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 @NullMarked
-public abstract class KnockbackBehavior {
+public interface KnockbackBehavior {
 
-    public abstract void handleKnockback(LivingEntity self, double power, double xd, double zd, DamageSource source, float damage, boolean comesFromEffect, @Nullable Entity attacker, EntityKnockbackEvent.Cause eventCause);
+    float getMultiplierExtra();
 
-    public abstract void handleExtraKnockback(LivingEntity self, Entity entity, float knockbackAmount, Vector oldMovement, DamageSource damageSource, float damage, boolean comesFromEffect);
+    void handleKnockback(LivingEntity self, double power, double xd, double zd, DamageSource source, float damage, boolean comesFromEffect, @Nullable Entity attacker, EntityKnockbackEvent.Cause eventCause);
+
+    void handleExtraKnockback(LivingEntity self, Entity entity, float knockbackAmount, Vector oldMovement, DamageSource damageSource, float damage, boolean comesFromEffect);
 
 }

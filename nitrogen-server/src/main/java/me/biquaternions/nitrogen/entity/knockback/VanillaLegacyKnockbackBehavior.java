@@ -15,7 +15,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.Objects;
 
 @NullMarked
-public class VanillaLegacyKnockbackBehavior extends KnockbackBehavior {
+public class VanillaLegacyKnockbackBehavior implements KnockbackBehavior {
 
     private final double horizontal;
     private final double vertical;
@@ -27,11 +27,13 @@ public class VanillaLegacyKnockbackBehavior extends KnockbackBehavior {
     private final double horizontalFriction;
     private final double verticalFriction;
 
+    private final float multiplierExtra;
+
     public VanillaLegacyKnockbackBehavior() {
-        this(0.4, 0.4, 0.4000000059604645, 0.5, 0.1, 2.0, 2.0);
+        this(0.4, 0.4, 0.4000000059604645, 0.5, 0.1, 2.0, 2.0, 1.0F);
     }
 
-    protected VanillaLegacyKnockbackBehavior(final double horizontal, final double vertical, final double verticalLimit, final double horizontalExtra, final double verticalExtra, final double horizontalFriction, final double verticalFriction) {
+    protected VanillaLegacyKnockbackBehavior(final double horizontal, final double vertical, final double verticalLimit, final double horizontalExtra, final double verticalExtra, final double horizontalFriction, final double verticalFriction, final float multiplierExtra) {
         this.horizontal = horizontal;
         this.vertical = vertical;
         this.verticalLimit = verticalLimit;
@@ -39,6 +41,12 @@ public class VanillaLegacyKnockbackBehavior extends KnockbackBehavior {
         this.verticalExtra = verticalExtra;
         this.horizontalFriction = horizontalFriction;
         this.verticalFriction = verticalFriction;
+        this.multiplierExtra = multiplierExtra;
+    }
+
+    @Override
+    public float getMultiplierExtra() {
+        return this.multiplierExtra;
     }
 
     @Override
