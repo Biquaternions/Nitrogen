@@ -11,7 +11,7 @@ At this moment, this only restores the mechanic, we still have to make the behav
   how it used to work in 1.8
 
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 00d73885502e7ca1051733a255b1d9dac2317948..99830f9500e63b1bae397738a7243c5312827d5b 100644
+index ccc89b695aec78a510b5669606d7bf13fea648ee..c9f61291866bb0cf7ebb7aac698a233de191103c 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
 @@ -220,7 +220,7 @@ public abstract class Player extends Avatar implements ContainerUser {

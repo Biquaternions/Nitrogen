@@ -5,10 +5,10 @@ Subject: [PATCH] Disable Dynamic Attack Strength
 
 
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 99830f9500e63b1bae397738a7243c5312827d5b..cf3e1d4f34c33f8d22a4d79de78041e2902a2ed5 100644
+index c9f61291866bb0cf7ebb7aac698a233de191103c..211e842f455c45ec380568c98926443f2dc8aac8 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -1124,6 +1124,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+@@ -1136,6 +1136,7 @@ public abstract class Player extends Avatar implements ContainerUser {
      }
  
      private boolean isSweepAttack(final boolean fullStrengthAttack, final boolean criticalAttack, final boolean knockbackAttack) {
@@ -16,7 +16,7 @@ index 99830f9500e63b1bae397738a7243c5312827d5b..cf3e1d4f34c33f8d22a4d79de78041e2
          if (fullStrengthAttack && !criticalAttack && !knockbackAttack && this.onGround()) {
              double approximateSpeedSq = this.getKnownMovement().horizontalDistanceSqr();
              double maxSpeedForSweepAttack = this.getSpeed() * 2.5;
-@@ -1963,6 +1964,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+@@ -1975,6 +1976,7 @@ public abstract class Player extends Avatar implements ContainerUser {
      }
  
      public float getCurrentItemAttackStrengthDelay() {
@@ -24,7 +24,7 @@ index 99830f9500e63b1bae397738a7243c5312827d5b..cf3e1d4f34c33f8d22a4d79de78041e2
          return (float)(1.0 / this.getAttributeValue(Attributes.ATTACK_SPEED) * 20.0);
      }
  
-@@ -1973,6 +1975,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+@@ -1985,6 +1987,7 @@ public abstract class Player extends Avatar implements ContainerUser {
      }
  
      public float getAttackStrengthScale(final float a) {

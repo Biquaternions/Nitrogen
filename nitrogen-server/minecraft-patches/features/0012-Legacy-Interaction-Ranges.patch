@@ -9,7 +9,7 @@ See:
 https://github.com/GrimAnticheat/Grim/blob/f803be6f7dd931f67753bf71954660bf0f2d25a6/common/src/main/java/ac/grim/grimac/checks/impl/combat/Reach.java#L152
 
 diff --git a/net/minecraft/world/entity/ai/attributes/Attributes.java b/net/minecraft/world/entity/ai/attributes/Attributes.java
-index 0c67f8adb19f4f9b3c6c388b59ad27ec30bfa12e..4bbf83c101710266ff99c60f71970d1f9f1f4d5e 100644
+index 94fac0a450e286ed92396bc1af650d9b126ac0af..464e3f7a2438c00abece71149e90a2b46f24a73e 100644
 --- a/net/minecraft/world/entity/ai/attributes/Attributes.java
 +++ b/net/minecraft/world/entity/ai/attributes/Attributes.java
 @@ -39,6 +39,7 @@ public class Attributes {

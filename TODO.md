@@ -28,3 +28,5 @@
 - [ ] Use data components to disable cooldowns instead, so the client still shows the item cooldown animation properly
 - [ ] Check of ServerPlayer#hurServer L1300 should be changed from AbstractArrow to Projectile now that fishing hooks deal knockback again
 - [ ] Restore getting self-hit by potions
+- [ ] Make fishing hook pull configurable in the combat profile API
+- [ ] Merge all combat profile API patches into one once the API is more mature
