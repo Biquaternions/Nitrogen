@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 18 Aug 2026 19:35:14 -0500
+Subject: [PATCH] Legacy Interaction Ranges
+
+Hitboxes were inflated in legacy versions.
+To keep compatibility with anti-cheats, we can make use of the attack range data component.
+See:
+https://github.com/GrimAnticheat/Grim/blob/f803be6f7dd931f67753bf71954660bf0f2d25a6/common/src/main/java/ac/grim/grimac/checks/impl/combat/Reach.java#L152
+
+diff --git a/net/minecraft/world/entity/ai/attributes/Attributes.java b/net/minecraft/world/entity/ai/attributes/Attributes.java
+index 0c67f8adb19f4f9b3c6c388b59ad27ec30bfa12e..4bbf83c101710266ff99c60f71970d1f9f1f4d5e 100644
+--- a/net/minecraft/world/entity/ai/attributes/Attributes.java
++++ b/net/minecraft/world/entity/ai/attributes/Attributes.java
+@@ -39,6 +39,7 @@ public class Attributes {
+         "explosion_knockback_resistance", new RangedAttribute("attribute.name.explosion_knockback_resistance", 0.0, 0.0, 1.0).setSyncable(true)
+     );
+     public static final Holder<Attribute> ENTITY_INTERACTION_RANGE = register(
++        // Nitrogen - See default value here
+         "entity_interaction_range", new RangedAttribute("attribute.name.entity_interaction_range", 3.0, 0.0, 64.0).setSyncable(true)
+     );
+     public static final Holder<Attribute> FALL_DAMAGE_MULTIPLIER = register(
+diff --git a/net/minecraft/world/item/component/AttackRange.java b/net/minecraft/world/item/component/AttackRange.java
+index 768cecee5f43beb1677c477fdd6dd42ba06c66ea..3c881043994d0587251ea2fcf03ea15b09d90640 100644
+--- a/net/minecraft/world/item/component/AttackRange.java
++++ b/net/minecraft/world/item/component/AttackRange.java
+@@ -55,7 +55,7 @@ public record AttackRange(float minReach, float maxReach, float minCreativeReach
+ 
+     public static AttackRange defaultFor(final LivingEntity livingEntity) {
+         float interactionRange = (float)livingEntity.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
+-        return new AttackRange(0.0F, interactionRange, 0.0F, interactionRange, 0.0F, 1.0F);
++        return new AttackRange(0.0F, interactionRange, 0.0F, interactionRange + 1.0F, 0.1F, 1.0F); // Nitrogen - Legacy attack ranges
+     }
+ 
+     public HitResult getClosesetHit(final Entity attacker, final float partial, final Predicate<Entity> matching) {
