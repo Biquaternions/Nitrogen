@@ -1,6 +1,7 @@
 package me.biquaternions.nitrogen.entity;
 
 import me.biquaternions.nitrogen.entity.knockback.KnockbackBehavior;
+import org.bukkit.damage.DamageSource;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
@@ -19,5 +20,10 @@ public interface KnockbackProfile {
     KnockbackBehavior getArrow();
     KnockbackBehavior getSpectralArrow();
     KnockbackBehavior getTrident();
+
+    // Fallback
+    KnockbackBehavior getFallback();
+
+    KnockbackBehavior getBehaviorFromDamageSource(DamageSource source);
 
 }

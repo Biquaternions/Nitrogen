@@ -1,0 +1,86 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 18 Aug 2026 22:13:35 -0500
+Subject: [PATCH] Configurable Combat Profiles
+
+
+diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
+index 64ad2e736ab1c4123d9a8e4bd56222e3e7ea3da8..71d305c531c106c22937c1b1e728e042c70a3af1 100644
+--- a/net/minecraft/world/entity/LivingEntity.java
++++ b/net/minecraft/world/entity/LivingEntity.java
+@@ -2067,6 +2067,12 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+     }
+ 
+     public void knockback(double power, double xd, double zd, final DamageSource source, final float damage, final boolean comesFromEffect, @Nullable Entity attacker, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause eventCause) { // Paper - knockback events
++        // Nitrogen start - Configurable Legacy Knockback
++        final org.bukkit.craftbukkit.damage.CraftDamageSource craftDamageSource = new org.bukkit.craftbukkit.damage.CraftDamageSource(source);
++        final me.biquaternions.nitrogen.entity.knockback.KnockbackBehavior behavior = this.getBukkitLivingEntity().getCombatProfile().getKnockback().getBehaviorFromDamageSource(craftDamageSource);
++        behavior.handleKnockback(this.getBukkitLivingEntity(), power, xd, zd, craftDamageSource, damage, comesFromEffect, attacker.getBukkitEntity(), eventCause);
++        if (true) return;
++        // Nitrogen end - Configurable Legacy Knockback
+         power *= 1.0 - this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
+         if (true || !(power <= 0.0)) { // CraftBukkit - Call event even when force is 0
+             // this.needsSync = true; // Paper - moved down
+diff --git a/net/minecraft/world/entity/ai/attributes/Attributes.java b/net/minecraft/world/entity/ai/attributes/Attributes.java
+index 54a8384f1bc805865e81aeebcf1eadc89d097c91..94fac0a450e286ed92396bc1af650d9b126ac0af 100644
+--- a/net/minecraft/world/entity/ai/attributes/Attributes.java
++++ b/net/minecraft/world/entity/ai/attributes/Attributes.java
+@@ -59,6 +59,7 @@ public class Attributes {
+         "jump_strength", new RangedAttribute("attribute.name.jump_strength", 0.42F, 0.0, 32.0).setSyncable(true)
+     );
+     public static final Holder<Attribute> KNOCKBACK_RESISTANCE = register(
++        // Nitrogen - Can't change 'minValue' without breaking something
+         "knockback_resistance", new RangedAttribute("attribute.name.knockback_resistance", 0.0, -2.0, 1.0)
+     );
+     public static final Holder<Attribute> LUCK = register("luck", new RangedAttribute("attribute.name.luck", 0.0, -1024.0, 1024.0).setSyncable(true));
+diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
+index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..ccc89b695aec78a510b5669606d7bf13fea648ee 100644
+--- a/net/minecraft/world/entity/player/Player.java
++++ b/net/minecraft/world/entity/player/Player.java
+@@ -1066,8 +1066,20 @@ public abstract class Player extends Avatar implements ContainerUser {
+                     Vec3 oldMovement = entity.getDeltaMovement();
+                     boolean wasHurt = entity.hurtOrSimulate(damageSource, totalDamage);
+                     if (wasHurt) {
++                        // Nitrogen start - Extra knockback multiplier
++                        float knockbackMultiplier = 0.0F;
++                        if (knockbackAttack) {
++                            // Players get an extra knockback from the enchantment level + 1 if they're sprinting
++                            // In modern we use 'knockbackAttack' which is only true when is sprinting and a full strength attack
++                            // Nitrogen will disable the cooldown logic, so all attacks will be on full strength
++                            // See: https://papersrc.biquaternions.me/1/paper-1.8.8/net/minecraft/server/EntityHuman#L944
++                            final org.bukkit.craftbukkit.damage.CraftDamageSource craftDamageSource = new org.bukkit.craftbukkit.damage.CraftDamageSource(damageSource);
++                            final me.biquaternions.nitrogen.entity.knockback.KnockbackBehavior behavior = this.getBukkitEntity().getCombatProfile().getKnockback().getBehaviorFromDamageSource(craftDamageSource);
++                            knockbackMultiplier = behavior.getMultiplierExtra();
++                        }
++                        // Nitrogen end - Extra knockback multiplier
+                         this.causeExtraKnockback(
+-                            entity, this.getKnockback(entity, damageSource) + (knockbackAttack ? 0.5F : 0.0F), oldMovement, damageSource, totalDamage, true
++                            entity, this.getKnockback(entity, damageSource) + knockbackMultiplier, oldMovement, damageSource, totalDamage, true // Nitrogen - Extra knockback multiplier
+                         );
+                         if (sweepAttack) {
+                             this.doSweepAttack(entity, baseDamage, damageSource, attackStrengthScale);
+@@ -1211,6 +1223,16 @@ public abstract class Player extends Avatar implements ContainerUser {
+         final boolean comesFromEffect
+     ) {
+         if (knockbackAmount > 0.0F) {
++            // Nitrogen start - Handle Knockback extra
++            final org.bukkit.craftbukkit.damage.CraftDamageSource craftDamageSource = new org.bukkit.craftbukkit.damage.CraftDamageSource(damageSource);
++            final me.biquaternions.nitrogen.entity.CombatProfile profile = this.getBukkitEntity().getCombatProfile();
++            final me.biquaternions.nitrogen.entity.knockback.KnockbackBehavior behavior = profile.getKnockback().getBehaviorFromDamageSource(craftDamageSource);
++            behavior.handleExtraKnockback(this.getBukkitEntity(), entity.getBukkitEntity(), knockbackAmount, org.bukkit.craftbukkit.util.CraftVector.toBukkit(oldMovement), craftDamageSource, damage, comesFromEffect);
++            if (profile.interruptsSprintOnHit()) {
++                this.setSprinting(false);
++            }
++            if (false) {
++            // Nitrogen end - Handle Knockback extra
+             if (entity instanceof LivingEntity livingTarget) {
+                 livingTarget.knockback(
+                     knockbackAmount, Mth.sin(this.getYRot() * Mth.DEG_TO_RAD), -Mth.cos(this.getYRot() * Mth.DEG_TO_RAD), damageSource, damage, comesFromEffect, this, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK // Paper - knockback events
+@@ -1225,6 +1247,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+             this.setSprinting(false);
+             }
+             // Paper end - Configurable sprint interruption on attack
++            } // Nitrogen - Cancel sprint on hit
+         }
+ 
+         if (entity instanceof ServerPlayer serverPlayer && entity.hurtMarked) {

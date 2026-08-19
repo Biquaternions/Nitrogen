@@ -12,7 +12,7 @@ public abstract class CombatProfile {
     PearlProfile getPearlBehavior();
      */
 
-    public abstract boolean canSprintOnHit();
+    public abstract boolean interruptsSprintOnHit();
 
     public abstract boolean canAttributeSwap();
 
