@@ -30,7 +30,7 @@ public class NitrogenCommand {
                     CommandSender sender = ctx.getSource().getSender();
                     MinecraftServer console = MinecraftServer.getServer();
                     try {
-                        NitrogenConfig.INSTANCE.load();
+                        NitrogenConfig.getInstance().reload();
                     } catch (Exception e) {
                         sender.sendMessage(FEEDBACK_RELOAD_FAILED);
                         console.server.getLogger().severe(e.getMessage());

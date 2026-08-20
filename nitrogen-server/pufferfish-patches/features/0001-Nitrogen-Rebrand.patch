@@ -5,7 +5,7 @@ Subject: [PATCH] Nitrogen Rebrand
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
-index cfb05bebc44154605851cf4afe5a9ccfc017be7a..574293b40c629fe973ed23fc6b9ce91ef2b77f70 100644
+index 924e968f46507b5c44ac052f027f25eea3b9da08..b0266436e88052472cec07ea2f169b8fc9f87253 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 @@ -34,12 +34,12 @@ import static net.minecraft.server.MinecraftServer.COMPONENT_LOGGER;
@@ -25,7 +25,7 @@ index cfb05bebc44154605851cf4afe5a9ccfc017be7a..574293b40c629fe973ed23fc6b9ce91e
  
      private static final int DISTANCE_ERROR = -1;
      private static final int DISTANCE_UNKNOWN = -2;
-@@ -106,7 +106,7 @@ public class PufferfishVersionFetcher extends PaperVersionFetcher {
+@@ -105,7 +105,7 @@ public class PufferfishVersionFetcher extends PaperVersionFetcher {
  
      private static int fetchDistanceFromSiteApi(final int actionsBuild) {
          try {
@@ -34,7 +34,7 @@ index cfb05bebc44154605851cf4afe5a9ccfc017be7a..574293b40c629fe973ed23fc6b9ce91e
              final HttpURLConnection connection = (HttpURLConnection) buildsUrl.openConnection();
              connection.setConnectTimeout(5000);
              connection.setReadTimeout(5000);
-@@ -117,7 +117,7 @@ public class PufferfishVersionFetcher extends PaperVersionFetcher {
+@@ -116,7 +116,7 @@ public class PufferfishVersionFetcher extends PaperVersionFetcher {
                  final int latest = json.getAsInt();
                  return Math.max(latest - actionsBuild, 0);
              } catch (final JsonSyntaxException | MalformedJsonException ex) {

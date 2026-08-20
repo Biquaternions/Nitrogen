@@ -1,66 +1,46 @@
 package me.biquaternions.nitrogen;
 
-import net.j4c0b3y.api.config.ConfigHandler;
-import net.j4c0b3y.api.config.StaticConfig;
-import java.nio.file.Path;
+import de.bsommerfeld.jshepherd.annotation.Key;
+import de.bsommerfeld.jshepherd.annotation.PostInject;
+import de.bsommerfeld.jshepherd.annotation.Section;
+import de.bsommerfeld.jshepherd.core.ConfigurablePojo;
+import de.bsommerfeld.jshepherd.core.ConfigurationLoader;
+import java.nio.file.Paths;
 
-public class NitrogenConfig extends StaticConfig {
-
-    @Ignore
-    public static final ConfigHandler HANDLER = new ConfigHandler();
-
-    @Ignore
-    public static NitrogenConfig INSTANCE;
-
-    public NitrogenConfig() {
-        super(Path.of("nitrogen.yml"), HANDLER);
-        INSTANCE = this;
+@SuppressWarnings({"unused", "FieldMayBeFinal", "FieldCanBeLocal"})
+public class NitrogenConfig extends ConfigurablePojo<NitrogenConfig> {
+    private NitrogenConfig() {
     }
 
-    @Priority(1)
-    public static class INFO {
-        public static String VERSION = "1.0";
+    @SuppressWarnings("NullAway.Init")
+    private static NitrogenConfig INSTANCE;
+    public static NitrogenConfig getInstance() {
+        return INSTANCE;
     }
 
-    @Priority(2)
-    public static class FEATURES {
-        public static boolean ITEM_COOLDOWN = false;
-        @Ignore
-        public static boolean _ITEM_COOLDOWN = false;
-
-        public static boolean ATTACK_STRENGTH = false;
-    }
-
-    @Priority(3)
-    public static class KNOCKBACK { // Maybe I can make this per-world or per-player in the future
-        public static double FRICTION_HORIZONTAL = 2.0;
-        public static double FRICTION_VERTICAL = 2.0;
-        public static double HORIZONTAL = 0.4;
-        public static double VERTICAL = 0.4;
-        public static double VERTICAL_LIMIT = 0.4000000059604645;
-        public static double EXTRA_HORIZONTAL = 0.5;
-        public static double EXTRA_VERTICAL = 0.1;
-    }
-
-
-
-    @Ignore
     private static boolean INITIALIZED = false;
     public static void init() {
-
-        /*
-         *  INITIALIZE RELOADABLE STUFF
-         */
-
-
-
-        /*
-         *  INITIALIZE NON-RELOADABLE STUFF
-         */
-        if (!INITIALIZED) {
-            FEATURES._ITEM_COOLDOWN = FEATURES.ITEM_COOLDOWN;
+        if (INITIALIZED) {
+            return;
         }
+
+        INSTANCE = ConfigurationLoader.from(Paths.get("nitrogen.yml"))
+            .withComments()
+            .load(NitrogenConfig::new);
         INITIALIZED = true;
+    }
+
+    @Section("info")
+    public Info info = new Info();
+    public static class Info {
+
+        @Key("version")
+        public String version = "1.0";
+
+    }
+
+    @PostInject
+    private void validate() {
     }
 
 }
