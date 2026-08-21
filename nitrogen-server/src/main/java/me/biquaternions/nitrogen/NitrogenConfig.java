@@ -5,7 +5,7 @@ import de.bsommerfeld.jshepherd.annotation.PostInject;
 import de.bsommerfeld.jshepherd.annotation.Section;
 import de.bsommerfeld.jshepherd.core.ConfigurablePojo;
 import de.bsommerfeld.jshepherd.core.ConfigurationLoader;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 @SuppressWarnings({"unused", "FieldMayBeFinal", "FieldCanBeLocal"})
 public class NitrogenConfig extends ConfigurablePojo<NitrogenConfig> {
@@ -24,7 +24,7 @@ public class NitrogenConfig extends ConfigurablePojo<NitrogenConfig> {
             return;
         }
 
-        INSTANCE = ConfigurationLoader.from(Paths.get("nitrogen.yml"))
+        INSTANCE = ConfigurationLoader.from(Path.of("nitrogen.yml"))
             .withComments()
             .load(NitrogenConfig::new);
         INITIALIZED = true;
