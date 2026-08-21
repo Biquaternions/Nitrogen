@@ -4,6 +4,124 @@ Date: Tue, 18 Aug 2026 22:13:35 -0500
 Subject: [PATCH] Configurable Combat Profiles
 
 
+diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 9a848431f86fccc284b3090a8285dd19a263b15e..6e5fa810004b32aefc9a5e6c2254d2d5de638d4f 100644
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -1106,7 +1106,7 @@ public class ServerGamePacketListenerImpl
+ 
+             this.send(new ClientboundSetHeldSlotPacket(inventory.getSelectedSlot()));
+             this.player.inventoryMenu.broadcastChanges();
+-            if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++            if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+         }
+     }
+ 
+@@ -1982,7 +1982,7 @@ public class ServerGamePacketListenerImpl
+                         }
+                         // CraftBukkit end
+                         this.player.stopUsingItem();
+-                        if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                        if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+                     }
+ 
+                     return;
+@@ -2004,20 +2004,20 @@ public class ServerGamePacketListenerImpl
+                         }
+                         // CraftBukkit end
+                         this.player.drop(false);
+-                        if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                        if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+                     }
+ 
+                     return;
+                 case DROP_ALL_ITEMS:
+                     if (!this.player.isSpectator()) {
+                         this.player.drop(true);
+-                        if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                        if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+                     }
+ 
+                     return;
+                 case RELEASE_USE_ITEM:
+                     this.player.releaseUsingItem();
+-                    if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                    if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+                     return;
+                 case START_DESTROY_BLOCK:
+                 case ABORT_DESTROY_BLOCK:
+@@ -2050,7 +2050,7 @@ public class ServerGamePacketListenerImpl
+                         }
+                     }
+                     // Paper end - Send block entities after destroy prediction
+-                    if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                    if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+                     return;
+                 default:
+                     throw new IllegalArgumentException("Invalid player action");
+@@ -2173,7 +2173,7 @@ public class ServerGamePacketListenerImpl
+                             this.send(new ClientboundBlockUpdatePacket(level, pos));
+                             this.send(new ClientboundBlockUpdatePacket(level, pos.relative(direction)));
+                         }
+-                        if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                        if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+                         // Paper - Remove unused warning
+                     }
+                 }
+@@ -2332,7 +2332,7 @@ public class ServerGamePacketListenerImpl
+ 
+             this.player.getInventory().setSelectedSlot(packet.getSlot());
+             this.player.resetLastActionTime();
+-            if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++            if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+         } else {
+             LOGGER.warn("{} tried to set an invalid carried item", this.player.getPlainTextName());
+             this.disconnect(Component.literal("Invalid hotbar selection (Hacking?)"), org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_ACTION); // CraftBukkit // Paper - kick event cause
+@@ -2870,7 +2870,7 @@ public class ServerGamePacketListenerImpl
+                 CraftEventFactory.callPlayerUseUnknownEntityEvent(ServerGamePacketListenerImpl.this.player, packet.entityId(), true, net.minecraft.world.InteractionHand.MAIN_HAND, null);
+             }
+             // Paper end - PlayerUseUnknownEntityEvent
+-            if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++            if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+         }
+     }
+ 
+@@ -2962,7 +2962,7 @@ public class ServerGamePacketListenerImpl
+                 CraftEventFactory.callPlayerUseUnknownEntityEvent(ServerGamePacketListenerImpl.this.player, packet.entityId(), false, packet.hand(), packet.location());
+             }
+             // Paper end - PlayerUseUnknownEntityEvent
+-            if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++            if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+         }
+     }
+ 
+@@ -3377,7 +3377,7 @@ public class ServerGamePacketListenerImpl
+                         this.player.containerMenu.broadcastChanges();
+                     }
+                     if (packet.buttonNum() == Inventory.SLOT_OFFHAND && this.player.containerMenu != this.player.inventoryMenu) this.player.containerSynchronizer.sendOffHandSlotChange(); // Paper - update offhand data when the player is clicking in an inventory not their own as the sychronizer does not include offhand slots
+-                    if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                    if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+                 }
+             }
+         }
+@@ -3470,7 +3470,7 @@ public class ServerGamePacketListenerImpl
+                 if (clickAccepted) {
+                     this.player.containerMenu.broadcastChanges();
+                 }
+-                if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+             }
+         }
+     }
+@@ -3528,7 +3528,7 @@ public class ServerGamePacketListenerImpl
+                 this.player.inventoryMenu.getSlot(packet.slotNum()).setByPlayer(itemStack);
+                 this.player.inventoryMenu.setRemoteSlot(packet.slotNum(), itemStack);
+                 this.player.inventoryMenu.broadcastChanges();
+-                if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
++                if (!this.player.getBukkitEntity().getCombatProfile().canAttributeSwap()) this.player.detectEquipmentUpdates(); // Paper - Force update attributes. // Nitrogen - Combat Profiles
+             } else if (drop && validData) {
+                 if (this.dropSpamThrottler.isUnderThreshold()) {
+                     this.dropSpamThrottler.increment();
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
 index 398e248f8916894030172d7e50ed5db832b4a03f..6ca7bd1bac5ee204b7bdb65277c7cf9a1e7fa70f 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
@@ -34,9 +152,18 @@ index 54a8384f1bc805865e81aeebcf1eadc89d097c91..94fac0a450e286ed92396bc1af650d9b
      );
      public static final Holder<Attribute> LUCK = register("luck", new RangedAttribute("attribute.name.luck", 0.0, -1024.0, 1024.0).setSyncable(true));
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..ccc89b695aec78a510b5669606d7bf13fea648ee 100644
+index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..954f4ac1e5857a0e8d7a56d851d8c938e265abaf 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
+@@ -1053,7 +1053,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+                     criticalAttack = criticalAttack && !this.level().paperConfig().entities.behavior.disablePlayerCrits; // Paper - Toggleable player crits
+                     if (criticalAttack) {
+                         damageSource = damageSource.critical(); // Paper - critical damage API
+-                        baseDamage *= 1.5F;
++                        baseDamage *= this.getBukkitEntity().getCombatProfile().getCriticalMultiplier(); // Nitrogen - Combat Profiles
+                     }
+ 
+                     float totalDamage = baseDamage + magicBoost;
 @@ -1066,8 +1066,20 @@ public abstract class Player extends Avatar implements ContainerUser {
                      Vec3 oldMovement = entity.getDeltaMovement();
                      boolean wasHurt = entity.hurtOrSimulate(damageSource, totalDamage);
@@ -84,6 +211,15 @@ index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..ccc89b695aec78a510b5669606d7bf13
          }
  
          if (entity instanceof ServerPlayer serverPlayer && entity.hurtMarked) {
+@@ -1993,7 +2016,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+     public void detectEquipmentUpdates() {
+         super.detectEquipmentUpdates();
+ 
+-        if (!io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) {
++        if (this.getBukkitEntity().getCombatProfile().canAttributeSwap()) { // Nitrogen - Combat Profiles
+             return;
+         }
+ 
 diff --git a/net/minecraft/world/entity/projectile/Projectile.java b/net/minecraft/world/entity/projectile/Projectile.java
 index bbb088d7e94d4ad808f8d20a449a2f377934666c..eb4c33bc5ffd4190f44abf0c77d5f9a37b290cc6 100644
 --- a/net/minecraft/world/entity/projectile/Projectile.java

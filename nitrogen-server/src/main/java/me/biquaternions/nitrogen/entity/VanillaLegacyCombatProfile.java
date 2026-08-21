@@ -13,13 +13,13 @@ public class VanillaLegacyCombatProfile extends CombatProfile {
     private final boolean canRegenerateOnSaturation;
 
     private final float regenerationExhaustion;
-    private final double criticalMultiplier;
+    private final float criticalMultiplier;
 
     public VanillaLegacyCombatProfile() {
-        this(new VanillaLegacyKnockbackProfile(), false, true, true, false, 0.3F, 1.5);
+        this(new VanillaLegacyKnockbackProfile(), false, true, true, false, 0.3F, 1.5F);
     }
 
-    protected VanillaLegacyCombatProfile(final KnockbackProfile knockback, final boolean projectilesInheritVelocity, final boolean interruptsSprintOnHit, final boolean canAttributeSwap, final boolean canRegenerateOnSaturation, final float regenerationExhaustion, final double criticalMultiplier) {
+    protected VanillaLegacyCombatProfile(final KnockbackProfile knockback, final boolean projectilesInheritVelocity, final boolean interruptsSprintOnHit, final boolean canAttributeSwap, final boolean canRegenerateOnSaturation, final float regenerationExhaustion, final float criticalMultiplier) {
         this.knockback = knockback;
         this.projectilesInheritVelocity = projectilesInheritVelocity;
         this.interruptsSprintOnHit = interruptsSprintOnHit;
@@ -61,7 +61,7 @@ public class VanillaLegacyCombatProfile extends CombatProfile {
     }
 
     @Override
-    public double getCriticalMultiplier() {
+    public float getCriticalMultiplier() {
         return this.criticalMultiplier;
     }
 

@@ -22,6 +22,6 @@ public abstract class CombatProfile {
 
     public abstract float getRegenerationExhaustion();
 
-    public abstract double getCriticalMultiplier();
+    public abstract float getCriticalMultiplier();
 
 }
