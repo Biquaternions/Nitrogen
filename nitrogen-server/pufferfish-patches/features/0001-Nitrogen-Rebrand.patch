@@ -5,7 +5,7 @@ Subject: [PATCH] Nitrogen Rebrand
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
-index fae84fc629f64ff161d9468886f31d4118837e53..73267498ebba50f38d2b7091f1427f642c1f8137 100644
+index d7ae8d9f402fd3031a80beaa5b7bab1a2c1ce622..da6d8c783798e546f7f9e51a8b6188990641a958 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 @@ -34,12 +34,12 @@ import static net.minecraft.server.MinecraftServer.COMPONENT_LOGGER;
@@ -34,7 +34,7 @@ index fae84fc629f64ff161d9468886f31d4118837e53..73267498ebba50f38d2b7091f1427f64
              final HttpURLConnection connection = (HttpURLConnection) buildsUrl.openConnection();
              connection.setConnectTimeout(5000);
              connection.setReadTimeout(5000);
-@@ -113,7 +113,7 @@ public class PufferfishVersionFetcher extends PaperVersionFetcher {
+@@ -117,7 +117,7 @@ public class PufferfishVersionFetcher extends PaperVersionFetcher {
                  final int latest = json.getAsInt();
                  return Math.max(latest - actionsBuild, 0);
              } catch (final JsonSyntaxException | MalformedJsonException ex) {
@@ -42,7 +42,7 @@ index fae84fc629f64ff161d9468886f31d4118837e53..73267498ebba50f38d2b7091f1427f64
 +                LOGGER.error("Error parsing json from Nitrogen's downloads API", ex); // Nitrogen - Rebrand
                  return DISTANCE_ERROR;
              } catch (final SocketTimeoutException ex) {
-                 return 0;
+                 return DISTANCE_ERROR;
 diff --git a/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java b/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java
 index 5ad53edffc891bf1fc35977e7c09cfaaa72af4d1..b20d10be8eab3e2fb7190df5b5ac575143c0d8ca 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java
