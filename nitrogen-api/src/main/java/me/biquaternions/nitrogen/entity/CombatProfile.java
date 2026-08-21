@@ -12,6 +12,8 @@ public abstract class CombatProfile {
     PearlProfile getPearlBehavior();
      */
 
+    public abstract boolean projectilesInheritVelocity();
+
     public abstract boolean interruptsSprintOnHit();
 
     public abstract boolean canAttributeSwap();

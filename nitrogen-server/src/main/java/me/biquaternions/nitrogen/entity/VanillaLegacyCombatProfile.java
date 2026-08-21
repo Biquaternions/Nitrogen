@@ -7,6 +7,7 @@ public class VanillaLegacyCombatProfile extends CombatProfile {
 
     private final KnockbackProfile knockback;
 
+    private final boolean projectilesInheritVelocity;
     private final boolean interruptsSprintOnHit;
     private final boolean canAttributeSwap;
     private final boolean canRegenerateOnSaturation;
@@ -15,11 +16,12 @@ public class VanillaLegacyCombatProfile extends CombatProfile {
     private final double criticalMultiplier;
 
     public VanillaLegacyCombatProfile() {
-        this(new VanillaLegacyKnockbackProfile(), true, true, false, 0.3F, 1.5);
+        this(new VanillaLegacyKnockbackProfile(), false, true, true, false, 0.3F, 1.5);
     }
 
-    protected VanillaLegacyCombatProfile(final KnockbackProfile knockback, final boolean interruptsSprintOnHit, final boolean canAttributeSwap, final boolean canRegenerateOnSaturation, final float regenerationExhaustion, final double criticalMultiplier) {
+    protected VanillaLegacyCombatProfile(final KnockbackProfile knockback, final boolean projectilesInheritVelocity, final boolean interruptsSprintOnHit, final boolean canAttributeSwap, final boolean canRegenerateOnSaturation, final float regenerationExhaustion, final double criticalMultiplier) {
         this.knockback = knockback;
+        this.projectilesInheritVelocity = projectilesInheritVelocity;
         this.interruptsSprintOnHit = interruptsSprintOnHit;
         this.canAttributeSwap = canAttributeSwap;
         this.canRegenerateOnSaturation = canRegenerateOnSaturation;
@@ -31,6 +33,11 @@ public class VanillaLegacyCombatProfile extends CombatProfile {
     @Override
     public KnockbackProfile getKnockback() {
         return this.knockback;
+    }
+
+    @Override
+    public boolean projectilesInheritVelocity() {
+        return this.projectilesInheritVelocity;
     }
 
     @Override

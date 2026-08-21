@@ -5,7 +5,7 @@ Subject: [PATCH] Configurable Combat Profiles
 
 
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 64ad2e736ab1c4123d9a8e4bd56222e3e7ea3da8..71d305c531c106c22937c1b1e728e042c70a3af1 100644
+index 398e248f8916894030172d7e50ed5db832b4a03f..6ca7bd1bac5ee204b7bdb65277c7cf9a1e7fa70f 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
 @@ -2067,6 +2067,12 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
@@ -84,3 +84,16 @@ index 2a71a2fa949b3a7fb8ff2c44ec3a3d8636237142..ccc89b695aec78a510b5669606d7bf13
          }
  
          if (entity instanceof ServerPlayer serverPlayer && entity.hurtMarked) {
+diff --git a/net/minecraft/world/entity/projectile/Projectile.java b/net/minecraft/world/entity/projectile/Projectile.java
+index bbb088d7e94d4ad808f8d20a449a2f377934666c..eb4c33bc5ffd4190f44abf0c77d5f9a37b290cc6 100644
+--- a/net/minecraft/world/entity/projectile/Projectile.java
++++ b/net/minecraft/world/entity/projectile/Projectile.java
+@@ -191,7 +191,7 @@ public abstract class Projectile extends Entity implements TraceableEntity {
+         if (!sourceMovement.isFinite()) {
+             sourceMovement = Vec3.ZERO;
+         }
+-        if (!source.level().paperConfig().misc.disableRelativeProjectileVelocity) {
++        if (!(source instanceof LivingEntity living) || living.getBukkitLivingEntity().getCombatProfile().projectilesInheritVelocity()) { // Nitrogen - Self hit by projectiles
+         this.setDeltaMovement(this.getDeltaMovement().add(sourceMovement.x, source.onGround() ? 0.0 : sourceMovement.y, sourceMovement.z));
+         }
+         // Paper end - allow disabling relative velocity
