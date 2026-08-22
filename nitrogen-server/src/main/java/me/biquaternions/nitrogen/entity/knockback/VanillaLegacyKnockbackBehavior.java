@@ -60,7 +60,7 @@ public class VanillaLegacyKnockbackBehavior implements KnockbackBehavior {
         // Nitrogen start - Legacy configurable knockback
         double magnitude = Math.sqrt(xd * xd + zd * zd);
         Vec3 motion = deltaMovement
-            .multiply(this.horizontalFriction, this.verticalFriction, this.horizontalFriction)
+            .multiply(1.0 / this.horizontalFriction, 1.0 / this.verticalFriction, 1.0 / this.horizontalFriction)
             .add(
                 -(xd / magnitude * this.horizontal),
                 this.vertical,
