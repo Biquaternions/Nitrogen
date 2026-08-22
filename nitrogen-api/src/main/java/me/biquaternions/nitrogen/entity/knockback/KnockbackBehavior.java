@@ -13,7 +13,7 @@ public interface KnockbackBehavior {
 
     float getMultiplierExtra();
 
-    void handleKnockback(LivingEntity self, double power, double xd, double zd, DamageSource source, float damage, boolean comesFromEffect, @Nullable Entity attacker, EntityKnockbackEvent.Cause eventCause);
+    KnockbackVelocitySummary handleKnockback(LivingEntity self, double power, double xd, double zd, DamageSource source, float damage, boolean comesFromEffect, @Nullable Entity attacker, EntityKnockbackEvent.Cause eventCause);
 
     void handleExtraKnockback(LivingEntity self, Entity entity, float knockbackAmount, Vector oldMovement, DamageSource damageSource, float damage, boolean comesFromEffect);
 

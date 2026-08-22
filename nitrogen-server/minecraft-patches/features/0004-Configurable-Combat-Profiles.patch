@@ -123,22 +123,47 @@ index 9a848431f86fccc284b3090a8285dd19a263b15e..6e5fa810004b32aefc9a5e6c2254d2d5
                  if (this.dropSpamThrottler.isUnderThreshold()) {
                      this.dropSpamThrottler.increment();
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 398e248f8916894030172d7e50ed5db832b4a03f..6ca7bd1bac5ee204b7bdb65277c7cf9a1e7fa70f 100644
+index 398e248f8916894030172d7e50ed5db832b4a03f..019a5c3142e7bfd524a66ed3f4150d1e29501b9e 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -2067,6 +2067,12 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -2067,9 +2067,15 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
      }
  
      public void knockback(double power, double xd, double zd, final DamageSource source, final float damage, final boolean comesFromEffect, @Nullable Entity attacker, io.papermc.paper.event.entity.EntityKnockbackEvent.Cause eventCause) { // Paper - knockback events
-+        // Nitrogen start - Configurable Legacy Knockback
-+        final org.bukkit.craftbukkit.damage.CraftDamageSource craftDamageSource = new org.bukkit.craftbukkit.damage.CraftDamageSource(source);
-+        final me.biquaternions.nitrogen.entity.knockback.KnockbackBehavior behavior = this.getBukkitLivingEntity().getCombatProfile().getKnockback().getBehaviorFromDamageSource(craftDamageSource);
-+        behavior.handleKnockback(this.getBukkitLivingEntity(), power, xd, zd, craftDamageSource, damage, comesFromEffect, attacker.getBukkitEntity(), eventCause);
-+        if (true) return;
-+        // Nitrogen end - Configurable Legacy Knockback
-         power *= 1.0 - this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
+-        power *= 1.0 - this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
++        power = Math.clamp(this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE), 0.0, 1.0); // Nitrogen - Turn resistance scale back into chance
          if (true || !(power <= 0.0)) { // CraftBukkit - Call event even when force is 0
              // this.needsSync = true; // Paper - moved down
++            final org.bukkit.craftbukkit.damage.CraftDamageSource craftDamageSource = new org.bukkit.craftbukkit.damage.CraftDamageSource(source);
++            final me.biquaternions.nitrogen.entity.knockback.KnockbackBehavior behavior = this.getBukkitLivingEntity().getCombatProfile().getKnockback().getBehaviorFromDamageSource(craftDamageSource);
++            final me.biquaternions.nitrogen.entity.knockback.KnockbackVelocitySummary summary = behavior.handleKnockback(this.getBukkitLivingEntity(), power, xd, zd, craftDamageSource, damage, comesFromEffect, attacker.getBukkitEntity(), eventCause);
++            final Vec3 originalVelocity = org.bukkit.craftbukkit.util.CraftVector.toVec3(summary.originalVelocity());
++            final Vec3 resultingVelocity = org.bukkit.craftbukkit.util.CraftVector.toVec3(summary.resultingVelocity());
++            if (false) {
+             Vec3 deltaMovement = this.getDeltaMovement();
+ 
+             while (xd * xd + zd * zd < 1.0E-5F) {
+@@ -2083,15 +2089,18 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+                 this.onGround() ? Math.min(0.4, deltaMovement.y / 2.0 + power) : deltaMovement.y,
+                 deltaMovement.z / 2.0 - deltaVector.z
+             );
++            } // Nitrogen
+             // Paper start - knockback events
+-            Vec3 knockback = targetMovement.subtract(deltaMovement);
++            Vec3 knockback = resultingVelocity.subtract(originalVelocity); // Nitrogen
+             io.papermc.paper.event.entity.EntityKnockbackEvent event = CraftEventFactory.callEntityKnockbackEvent((org.bukkit.craftbukkit.entity.CraftLivingEntity) this.getBukkitEntity(), attacker, attacker, eventCause, power, knockback);
+             if (event.isCancelled()) {
+                 return;
+             }
+ 
++            if (this.random.nextDouble() >= power) { // Nitrogen - Turn resistance scale back into chance
+             this.needsSync = true;
+-            this.setDeltaMovement(deltaMovement.add(event.getKnockback().getX(), event.getKnockback().getY(), event.getKnockback().getZ()));
++            this.setDeltaMovement(originalVelocity.add(event.getKnockback().getX(), event.getKnockback().getY(), event.getKnockback().getZ())); // Nitrogen
++            } // Nitrogen
+             // Paper end - knockback events
+         }
+     }
 diff --git a/net/minecraft/world/entity/ai/attributes/Attributes.java b/net/minecraft/world/entity/ai/attributes/Attributes.java
 index 54a8384f1bc805865e81aeebcf1eadc89d097c91..94fac0a450e286ed92396bc1af650d9b126ac0af 100644
 --- a/net/minecraft/world/entity/ai/attributes/Attributes.java

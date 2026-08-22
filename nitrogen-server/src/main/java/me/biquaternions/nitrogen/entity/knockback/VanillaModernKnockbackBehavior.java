@@ -10,11 +10,10 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.craftbukkit.damage.CraftDamageSource;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.event.CraftEventFactory;
+import org.bukkit.craftbukkit.util.CraftVector;
 import org.bukkit.util.Vector;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-import java.util.Objects;
 
 @NullMarked
 public class VanillaModernKnockbackBehavior implements KnockbackBehavior {
@@ -25,9 +24,8 @@ public class VanillaModernKnockbackBehavior implements KnockbackBehavior {
     }
 
     @Override
-    public void handleKnockback(final org.bukkit.entity.LivingEntity self, double power, double xd, double zd, final org.bukkit.damage.DamageSource source, final float damage, final boolean comesFromEffect, final org.bukkit.entity.@Nullable Entity attacker0, final EntityKnockbackEvent.Cause eventCause) {
+    public KnockbackVelocitySummary handleKnockback(final org.bukkit.entity.LivingEntity self, double power, double xd, double zd, final org.bukkit.damage.DamageSource source, final float damage, final boolean comesFromEffect, final org.bukkit.entity.@Nullable Entity attacker0, final EntityKnockbackEvent.Cause eventCause) {
         LivingEntity thiz = ((CraftLivingEntity) self).getHandle();
-        Entity attacker = Objects.requireNonNull(((CraftEntity) attacker0)).getHandle();
 
         power *= 1.0 - thiz.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
         Vec3 deltaMovement = thiz.getDeltaMovement();
@@ -43,16 +41,8 @@ public class VanillaModernKnockbackBehavior implements KnockbackBehavior {
             thiz.onGround() ? Math.min(0.4, deltaMovement.y / 2.0 + power) : deltaMovement.y,
             deltaMovement.z / 2.0 - deltaVector.z
         );
-        // Paper start - knockback events
-        Vec3 knockback = targetMovement.subtract(deltaMovement);
-        io.papermc.paper.event.entity.EntityKnockbackEvent event = CraftEventFactory.callEntityKnockbackEvent((org.bukkit.craftbukkit.entity.CraftLivingEntity) thiz.getBukkitEntity(), attacker, attacker, eventCause, power, knockback);
-        if (event.isCancelled()) {
-            return;
-        }
 
-        thiz.needsSync = true;
-        thiz.setDeltaMovement(deltaMovement.add(event.getKnockback().getX(), event.getKnockback().getY(), event.getKnockback().getZ()));
-        // Paper end - knockback events
+        return new KnockbackVelocitySummary(CraftVector.toBukkit(deltaMovement), CraftVector.toBukkit(targetMovement));
     }
 
     @Override

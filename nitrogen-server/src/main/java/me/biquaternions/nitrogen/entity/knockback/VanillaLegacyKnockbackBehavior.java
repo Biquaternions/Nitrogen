@@ -4,15 +4,13 @@ import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.event.CraftEventFactory;
+import org.bukkit.craftbukkit.util.CraftVector;
 import org.bukkit.util.Vector;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-import java.util.Objects;
 
 @NullMarked
 public class VanillaLegacyKnockbackBehavior implements KnockbackBehavior {
@@ -50,36 +48,23 @@ public class VanillaLegacyKnockbackBehavior implements KnockbackBehavior {
     }
 
     @Override
-    public void handleKnockback(final org.bukkit.entity.LivingEntity self, double power, final double xd, final double zd, final org.bukkit.damage.DamageSource source0, final float damage, final boolean comesFromEffect, final org.bukkit.entity.@Nullable Entity attacker0, final EntityKnockbackEvent.Cause eventCause) {
+    public KnockbackVelocitySummary handleKnockback(final org.bukkit.entity.LivingEntity self, double power, final double xd, final double zd, final org.bukkit.damage.DamageSource source0, final float damage, final boolean comesFromEffect, final org.bukkit.entity.@Nullable Entity attacker0, final EntityKnockbackEvent.Cause eventCause) {
         LivingEntity thiz = ((CraftLivingEntity) self).getHandle();
-        Entity attacker = Objects.requireNonNull(((CraftEntity) attacker0)).getHandle();
 
-        power = Math.clamp(thiz.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE), 0.0, 1.0); // Nitrogen - Turn resistance scale back into chance
         Vec3 deltaMovement = thiz.getDeltaMovement();
-
-        // Nitrogen start - Legacy configurable knockback
         double magnitude = Math.sqrt(xd * xd + zd * zd);
-        Vec3 motion = deltaMovement
+        Vec3 targetMovement = deltaMovement
             .multiply(1.0 / this.horizontalFriction, 1.0 / this.verticalFriction, 1.0 / this.horizontalFriction)
             .add(
                 -(xd / magnitude * this.horizontal),
                 this.vertical,
                 -(zd / magnitude * this.horizontal)
             );
-        if (motion.y() > this.verticalLimit) {
-            motion = new Vec3(motion.x(), this.verticalLimit, motion.z());
-        }
-        // Paper start - knockback events
-        Vec3 knockback = motion.subtract(deltaMovement); // Nitrogen - Legacy configurable knockback
-        io.papermc.paper.event.entity.EntityKnockbackEvent event = CraftEventFactory.callEntityKnockbackEvent((org.bukkit.craftbukkit.entity.CraftLivingEntity) thiz.getBukkitEntity(), attacker, attacker, eventCause, power, knockback);
-        if (event.isCancelled()) {
-            return;
+        if (targetMovement.y() > this.verticalLimit) {
+            targetMovement = new Vec3(targetMovement.x(), this.verticalLimit, targetMovement.z());
         }
 
-        if (thiz.getRandom().nextDouble() >= power) { // Nitrogen - Turn resistance scale back into chance
-            thiz.needsSync = true;
-            thiz.setDeltaMovement(deltaMovement.add(event.getKnockback().getX(), event.getKnockback().getY(), event.getKnockback().getZ()));
-        } // Nitrogen - Turn resistance scale back into chance
+        return new KnockbackVelocitySummary(CraftVector.toBukkit(deltaMovement), CraftVector.toBukkit(targetMovement));
     }
 
     @Override
